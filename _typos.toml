@@ -2,3 +2,4 @@
 # Don't correct -thr option
 thr = "thr"
 center = "center"
+maximization = "maximization"
