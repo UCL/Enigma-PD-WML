@@ -56,7 +56,7 @@ If you want to use Apptainer instead, then follow the
 > to BIDS, you can [run the pipeline on non-BIDS data](./docs/non-bids-data.md).
 
 If your data isn't structured in BIDS format, we recommend you use [Nipoppy](https://nipoppy.readthedocs.io)
-to restructure your into the required format.
+to restructure your data into the required format.
 
 For detailed instructions on the BIDSification process, please see the
 [excellent guide](https://github.com/ENIGMA-PD/FS7?tab=readme-ov-file#getting-started) written by the
@@ -172,7 +172,7 @@ Note, this requires either:
 - `-s` : Comma-separated list of subjects to include in the analysis, e.g. `-s sub-1,sub-2,sub-3`
 
 - `-l` : path to CSV file containing list of subjects to include in the analysis. This should only be used if you would
-  like to [run the pipelineon non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
+  like to [run the pipeline on non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
 
 > [!NOTE]
 > If `-f`, `-s`, and `-l` are omitted, the pipeline will be run on all subjects and assume data is in BIDS format.
@@ -310,7 +310,7 @@ FSL is released under a 'free for non-commercial purposes license', and
 
 ### Creators
 
-Drs Sarah Al-Bachari, Hamied Haroon, Robin Long, Kimberley Meecham and Paul Smith. With specialist input from Professor
+Drs Sarah Al-Bachari, Hamied Haroon, Robin Long, Kimberly Meechan and Paul Smith. With specialist input from Professor
 Neda Jahanshad, Dr Conor Owens-Walton and Miss Sunanda Somu and Dr Chris Vriend.
 
 ### Acknowledgements and Thanks
