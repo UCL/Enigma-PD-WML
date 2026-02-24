@@ -76,8 +76,8 @@ data
 ├───sub-2
 │   └───ses-1
 │       └───anat
-│           ├───sub-1_ses-1_T1w.nii.gz
-│           └───sub-1_ses-1_FLAIR.nii.gz
+│           ├───sub-2_ses-1_T1w.nii.gz
+│           └───sub-2_ses-1_FLAIR.nii.gz
 ```
 
 ## 3. Run the container
