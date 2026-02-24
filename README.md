@@ -273,6 +273,8 @@ Pipeline logs can be found at:
 
 See notes on [quality control](docs/qc.md) for the WML pipeline.
 
+New interactive QC feature soon to be added.
+
 ## Common issues
 
 ### Tensorflow memory usage
