@@ -228,27 +228,27 @@ These zip files should contain 16 files:
 
 - `results2mni_lin.nii.gz`: WML segmentations linearly transformed to MNI space.
 
-- `results2mni_nonlin.nii.gz`: WML segmentations non-linearly warped to MNI space.
-
 - `results2mni_lin_combined`: Combined deep and periventricular WML segmentations linearly transformed to MNI space
 
-- `results2mni_nonlin_combined`: Combined deep and periventricular WML segmentations non-linearly warped to MNI space
-
 - `results2mni_lin_deep.nii.gz`: WML segmentations (deep white matter) linearly transformed to MNI space.
-
-- `results2min_nonlin_deep.nii.gz`: WML segmentations (deep white matter) non-linearly warped to MNI space.
-
-- `results2min_lin_perivent.nii.gz`: WML segmentations (periventricular) linearly transformed to MNI space.
-
-- `results2mni_nonlin_perivent.nii.gz`: WML segmentations (periventricular) non-linearly warped to MNI space.
 
 - `results2mni_lin_jhuwmtracts.nii.gz`: WML segmentations (on jhu-icbm white matter tracts) linearly transformed to
   MNI space.
 
+- `results2min_lin_perivent.nii.gz`: WML segmentations (periventricular) linearly transformed to MNI space.
+
+- `results2mni_lin_striatal.nii.gz`: WML segmentations (on striatal connections) linearly transformed to MNI space.
+
+- `results2mni_nonlin.nii.gz`: WML segmentations non-linearly warped to MNI space.
+
+- `results2mni_nonlin_combined`: Combined deep and periventricular WML segmentations non-linearly warped to MNI space
+
+- `results2min_nonlin_deep.nii.gz`: WML segmentations (deep white matter) non-linearly warped to MNI space.
+
 - `results2mni_nonlin_jhuwmtracts.nii.gz`: WML segmentations (on jhu-icbm white matter tracts) non-linearly warped
   to MNI space.
 
-- `results2mni_lin_striatal.nii.gz`: WML segmentations (on striatal connections) linearly transformed to MNI space.
+- `results2mni_nonlin_perivent.nii.gz`: WML segmentations (periventricular) non-linearly warped to MNI space.
 
 - `results2mni_nonlin_striatal.nii.gz`: WML segmentations (on striatal connections) non-linearly warped to MNI space.
 
