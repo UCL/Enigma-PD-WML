@@ -220,7 +220,7 @@ data
 The pipeline will generate multiple `.zip` files - one per session, stored within the corresponding session
 sub-folder, e.g. `derivatives/enigma-pd-wml/sub-1/ses-1/sub-1_ses-1_results.zip`.
 
-These zip files should contain 12 files:
+These zip files should contain 16 files:
 
 - `results2mni_lin.nii.gz`: WML segmentations linearly transformed to MNI space.
 
@@ -251,6 +251,10 @@ These zip files should contain 12 files:
 - `T1_biascorr_brain_to_MNI_nonlin.nii.gz`: T1 bias-corrected brain non-linearly warped to MNI space.
 
 - `FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz`: FLAIR bias-corrected brain non-linearly warped to MNI space.
+
+- `results2mni_lin_combined`: Combined deep and periventricular WML segmentations linearly transformed to MNI space
+
+- `results2mni_nonlin_combined`: Combined deep and periventricular WML segmentations non-linearly warped to MNI space
 
 > [!NOTE]
 > Please send these zip files to the ENIGMA-PD Vasc team.
