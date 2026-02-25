@@ -314,6 +314,7 @@ function processOutputs(){
      -out FLAIR_biascorr_brain_to_MNI_lin \
      -paddingsize 0.0 -interp trilinear -ref MNI152_T1_1mm_brain.nii.gz
 
+   fslmaths results2mni_lin_perivent -add results2mni_lin_deep -bin results2mni_lin_combined
 
    echo "STEP 05"
    # run FSL's applywarp tool to nonlinearly warp WML segmentations with MNI T1
@@ -336,6 +337,8 @@ function processOutputs(){
    applywarp --in=flairbrain2t1brain.nii.gz --warp=T1_to_MNI_nonlin_coeff.nii.gz \
           --out=FLAIR_biascorr_brain_to_MNI_nonlin \
           --interp=trilinear --ref=MNI152_T1_1mm_brain.nii.gz
+
+   fslmaths results2mni_nonlin_perivent -add results2mni_nonlin_deep -bin results2mni_nonlin_combined
 
    echo "STEP 06"
    # run FSL's invwarp and then applywarp tools to nonlinearly warp

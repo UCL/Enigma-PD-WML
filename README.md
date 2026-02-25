@@ -56,7 +56,7 @@ If you want to use Apptainer instead, then follow the
 > to BIDS, you can [run the pipeline on non-BIDS data](./docs/non-bids-data.md).
 
 If your data isn't structured in BIDS format, we recommend you use [Nipoppy](https://nipoppy.readthedocs.io)
-to restructure your into the required format.
+to restructure your data into the required format.
 
 For detailed instructions on the BIDSification process, please see the
 [excellent guide](https://github.com/ENIGMA-PD/FS7?tab=readme-ov-file#getting-started) written by the
@@ -76,8 +76,8 @@ data
 ├───sub-2
 │   └───ses-1
 │       └───anat
-│           ├───sub-1_ses-1_T1w.nii.gz
-│           └───sub-1_ses-1_FLAIR.nii.gz
+│           ├───sub-2_ses-1_T1w.nii.gz
+│           └───sub-2_ses-1_FLAIR.nii.gz
 ```
 
 ## 3. Run the container
@@ -172,7 +172,7 @@ Note, this requires either:
 - `-s` : Comma-separated list of subjects to include in the analysis, e.g. `-s sub-1,sub-2,sub-3`
 
 - `-l` : path to CSV file containing list of subjects to include in the analysis. This should only be used if you would
-  like to [run the pipelineon non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
+  like to [run the pipeline on non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
 
 > [!NOTE]
 > If `-f`, `-s`, and `-l` are omitted, the pipeline will be run on all subjects and assume data is in BIDS format.
@@ -220,37 +220,41 @@ data
 The pipeline will generate multiple `.zip` files - one per session, stored within the corresponding session
 sub-folder, e.g. `derivatives/enigma-pd-wml/sub-1/ses-1/sub-1_ses-1_results.zip`.
 
-These zip files should contain 12 files:
+These zip files should contain 16 files:
+
+- `FLAIR_biascorr_brain_to_MNI_lin.nii.gz`: FLAIR bias-corrected brain linearly transformed to MNI space.
+
+- `FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz`: FLAIR bias-corrected brain non-linearly warped to MNI space.
 
 - `results2mni_lin.nii.gz`: WML segmentations linearly transformed to MNI space.
 
+- `results2mni_lin_combined`: Combined deep and periventricular WML segmentations linearly transformed to MNI space
+
 - `results2mni_lin_deep.nii.gz`: WML segmentations (deep white matter) linearly transformed to MNI space.
-
-- `results2min_lin_perivent.nii.gz`: WML segmentations (periventricular) linearly transformed to MNI space.
-
-- `results2mni_nonlin.nii.gz`: WML segmentations non-linearly warped to MNI space.
-
-- `results2min_nonlin_deep.nii.gz`: WML segmentations (deep white matter) non-linearly warped to MNI space.
 
 - `results2mni_lin_jhuwmtracts.nii.gz`: WML segmentations (on jhu-icbm white matter tracts) linearly transformed to
   MNI space.
 
+- `results2min_lin_perivent.nii.gz`: WML segmentations (periventricular) linearly transformed to MNI space.
+
 - `results2mni_lin_striatal.nii.gz`: WML segmentations (on striatal connections) linearly transformed to MNI space.
 
-- `results2mni_nonlin_perivent.nii.gz`: WML segmentations (periventricular) non-linearly warped to MNI space.
+- `results2mni_nonlin.nii.gz`: WML segmentations non-linearly warped to MNI space.
+
+- `results2mni_nonlin_combined`: Combined deep and periventricular WML segmentations non-linearly warped to MNI space
+
+- `results2min_nonlin_deep.nii.gz`: WML segmentations (deep white matter) non-linearly warped to MNI space.
 
 - `results2mni_nonlin_jhuwmtracts.nii.gz`: WML segmentations (on jhu-icbm white matter tracts) non-linearly warped
   to MNI space.
+
+- `results2mni_nonlin_perivent.nii.gz`: WML segmentations (periventricular) non-linearly warped to MNI space.
 
 - `results2mni_nonlin_striatal.nii.gz`: WML segmentations (on striatal connections) non-linearly warped to MNI space.
 
 - `T1_biascorr_brain_to_MNI_lin.nii.gz`: T1 bias-corrected brain linearly transformed to MNI space.
 
-- `FLAIR_biascorr_brain_to_MNI_lin.nii.gz`: FLAIR bias-corrected brain linearly transformed to MNI space.
-
 - `T1_biascorr_brain_to_MNI_nonlin.nii.gz`: T1 bias-corrected brain non-linearly warped to MNI space.
-
-- `FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz`: FLAIR bias-corrected brain non-linearly warped to MNI space.
 
 > [!NOTE]
 > Please send these zip files to the ENIGMA-PD Vasc team.
@@ -272,6 +276,8 @@ Pipeline logs can be found at:
 ## Quality control
 
 See notes on [quality control](docs/qc.md) for the WML pipeline.
+
+New interactive QC feature soon to be added.
 
 ## Common issues
 
@@ -308,7 +314,7 @@ FSL is released under a 'free for non-commercial purposes license', and
 
 ### Creators
 
-Drs Sarah Al-Bachari, Hamied Haroon, Robin Long, Kimberley Meecham and Paul Smith. With specialist input from Professor
+Drs Sarah Al-Bachari, Hamied Haroon, Robin Long, Kimberly Meechan and Paul Smith. With specialist input from Professor
 Neda Jahanshad, Dr Conor Owens-Walton and Miss Sunanda Somu and Dr Chris Vriend.
 
 ### Acknowledgements and Thanks
