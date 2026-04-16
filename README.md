@@ -24,6 +24,8 @@ allowing it to be run on many different systems.
 
 ## How to run the pipeline?
 
+THIS IS A CHANGE
+
 Setting up and running the pipeline requires the following steps, which are explained in detail in the sections below:
 
 ```mermaid
