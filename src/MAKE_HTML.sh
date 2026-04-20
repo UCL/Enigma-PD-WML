@@ -46,7 +46,8 @@ generate_html_for_registration() {
     local end_idx=$5
 
     # Determine HTML filename
-    local file_num=$(printf "%02d" $((batch + 1)))
+    local file_num
+    file_num=$(printf "%02d" $((batch + 1)))
     local current_html="${dataset_name}_ENIGMA_WML_QC_${reg_label}_${file_num}.html"
 
     echo "Generating $current_html (subjects $((start_idx + 1)) to $end_idx)..."
@@ -84,8 +85,10 @@ EOF
     for ((i=start_idx; i<end_idx; i++)); do
         local subject="${subjects[$i]}"
 
-        local base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
-        local overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
+        local base_count
+        base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
+        local overlay_count
+        overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
 
         if [ "$base_count" -gt 0 ] && [ "$base_count" -eq "$overlay_count" ]; then
             cat >> "$output_dir/${current_html}" <<EOF
@@ -172,8 +175,10 @@ EOF
         local subject="${subjects[$i]}"
 
         # Count and validate PNGs for registration type
-        local base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
-        local overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
+        local base_count
+        base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
+        local overlay_count
+        overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
 
         local is_valid=0
         local error_msg=""
@@ -185,7 +190,8 @@ EOF
                 local missing_pairs=""
                 for base_file in "$png_dir/$subject/$reg_type"/*_base.png; do
                     if [ -f "$base_file" ]; then
-                        local slice_num=$(basename "$base_file" | sed 's/_base.png//')
+                        local slice_num
+                        slice_num=$(basename "$base_file" | sed 's/_base.png//')
                         local overlay_file="$png_dir/$subject/$reg_type/${slice_num}_overlay.png"
                         if [ ! -f "$overlay_file" ]; then
                             missing_pairs="${missing_pairs}${slice_num} "
@@ -375,10 +381,10 @@ for subject in "${subjects[@]}"; do
     elif [ "$nonlin_base_count" -eq 0 ] && [ "$nonlin_overlay_count" -eq 0 ] && [ "$lin_base_count" -eq 0 ] && [ "$lin_overlay_count" -eq 0 ]; then
         no_pngs+=("$subject")
     else
-        if [ "$lin_ok" -eq 0 ] && [ "$lin_base_count" -gt 0 -o "$lin_overlay_count" -gt 0 ]; then
+        if [ "$lin_ok" -eq 0 ] && { [ "$lin_base_count" -gt 0 ] || [ "$lin_overlay_count" -gt 0 ]; }; then
             missing_linear+=("$subject (base=$lin_base_count, overlay=$lin_overlay_count)")
         fi
-        if [ "$nonlin_ok" -eq 0 ] && [ "$nonlin_base_count" -gt 0 -o "$nonlin_overlay_count" -gt 0 ]; then
+        if [ "$nonlin_ok" -eq 0 ] && { [ "$nonlin_base_count" -gt 0 ] || [ "$nonlin_overlay_count" -gt 0 ]; }; then
             missing_nonlinear+=("$subject (base=$nonlin_base_count, overlay=$nonlin_overlay_count)")
         fi
     fi

@@ -1,8 +1,5 @@
 [default.extend-words]
 # Don't correct -thr option
 thr = "thr"
-center = "center"
-maximization = "maximization"
-colors = "colors"
-ax = "ax"
+# Don't correct PNGs
 PN = "PN"

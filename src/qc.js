@@ -27,13 +27,13 @@ function restoreFromStorage() {
             const savedTime = new Date(parsed.timestamp);
             const now = new Date();
             const hoursSince = (now - savedTime) / (1000 * 60 * 60);
-            
+
             if (hoursSince < 24) { // Only restore if less than 24 hours old
                 const restore = confirm(
                     `Found saved QC data from ${savedTime.toLocaleString()}.\n` +
                     `Do you want to restore your previous work?`
                 );
-                
+
                 if (restore) {
                     // Restore data for matching subjects
                     for (const subject in parsed.subjects) {
@@ -44,10 +44,10 @@ function restoreFromStorage() {
                             };
                         }
                     }
-                    
+
                     // Update UI to reflect restored data
                     updateUIFromData();
-                    
+
                     alert('Previous work restored successfully!');
                     return true;
                 }
@@ -66,10 +66,10 @@ function restoreFromStorage() {
 function updateUIFromData() {
     for (const subject in subjectData) {
         const data = subjectData[subject];
-        
+
         // Skip missing subjects
         if (data.isMissing) continue;
-        
+
         // Restore PASS status
         if (data.isPassed) {
             const button = document.querySelector(`[data-subject="${subject}"] .pass-button`);
@@ -78,7 +78,7 @@ function updateUIFromData() {
                 button.textContent = 'PASSED';
             }
         }
-        
+
         // Restore FAIL status
         if (data.isFailed) {
             const button = document.querySelector(`[data-subject="${subject}"] .fail-button`);
@@ -86,13 +86,13 @@ function updateUIFromData() {
                 button.classList.add('clicked');
                 button.textContent = 'FAILED';
             }
-            
+
             const reasonDropdown = document.getElementById(`reason-${subject}`);
             if (reasonDropdown && data.failureReason) {
                 reasonDropdown.value = data.failureReason;
             }
         }
-        
+
         // Restore LATER status
         if (data.isLater) {
             const button = document.querySelector(`[data-subject="${subject}"] .later-button`);
@@ -101,7 +101,7 @@ function updateUIFromData() {
                 button.textContent = 'FLAGGED FOR LATER QC';
             }
         }
-        
+
         // Restore comments
         if (data.comment) {
             const commentField = document.getElementById(`comment-${subject}`);
@@ -109,12 +109,12 @@ function updateUIFromData() {
                 commentField.value = data.comment;
             }
         }
-        
+
         // Restore slice position
         if (data.currentSlice !== undefined) {
             updateImages(subject);
         }
-        
+
         // Restore overlay state
         if (data.showOverlay) {
             const toggle = document.querySelector(`[data-subject="${subject}"] .toggle`);
@@ -141,14 +141,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const totalSlicesElement = container.querySelector('.total-slices');
         const totalSlices = totalSlicesElement ? parseInt(totalSlicesElement.textContent) : 0;
         const isMissing = container.classList.contains('missing-subject-container');
-        
+
         let startingSlice = 65;
         if (isMissing || startingSlice >= totalSlices + 1) {
             startingSlice = 0;
         } else if (startingSlice > totalSlices) {
             startingSlice = totalSlices;
         }
-        
+
         subjectData[subject] = {
             currentSlice: startingSlice,
             totalSlices: totalSlices,
@@ -161,10 +161,10 @@ document.addEventListener('DOMContentLoaded', function() {
             comment: ''
         };
     });
-    
+
     // Try to restore previous work
     restoreFromStorage();
-    
+
     // Start auto-save interval
     setInterval(autoSave, AUTOSAVE_INTERVAL);
 });
@@ -187,40 +187,40 @@ window.onclick = function(event) {
 function toggleOverlay(subject) {
     const toggle = document.querySelector(`[data-subject="${subject}"] .toggle`);
     const data = subjectData[subject];
-    
+
     data.showOverlay = !data.showOverlay;
     toggle.classList.toggle('active');
-    
+
     updateImages(subject);
 }
 
 function updateImages(subject) {
     const img = document.getElementById(`img-${subject}`);
-    
+
     if (!img) {
         console.error(`Image element not found for subject: ${subject}`);
         return;
     }
-    
+
     const data = subjectData[subject];
     if (!data) {
         console.error(`Subject data not found for: ${subject}`);
         return;
     }
-    
+
     const imageType = data.showOverlay ? 'overlay' : 'base';
-    
+
     const currentSrc = img.src;
     const basePath = currentSrc.substring(0, currentSrc.lastIndexOf('/') + 1);
-    
+
     img.src = `${basePath}${data.currentSlice}_${imageType}.png`;
-    
+
     const container = document.querySelector(`[data-subject="${subject}"]`);
     const currentSliceSpan = container ? container.querySelector('.current-slice') : null;
     if (currentSliceSpan) {
         currentSliceSpan.textContent = data.currentSlice;
     }
-    
+
     const slider = document.getElementById(`slider-${subject}`);
     if (slider) {
         slider.value = data.currentSlice;
@@ -233,13 +233,13 @@ function sliderChange(subject, value) {
         console.error(`Subject data not found for: ${subject}`);
         return;
     }
-    
+
     let sliceNum = parseInt(value);
-    
+
     // Apply slice skip
     sliceNum = Math.round(sliceNum / globalSliceSkip) * globalSliceSkip;
     if (sliceNum > data.totalSlices) sliceNum = data.totalSlices;
-    
+
     if (!isNaN(sliceNum) && sliceNum >= 0 && sliceNum <= data.totalSlices) {
         data.currentSlice = sliceNum;
         updateImages(subject);
@@ -250,7 +250,7 @@ function jumpToSlice(subject) {
     const data = subjectData[subject];
     const sliceNum = prompt(`Enter slice number (0-${data.totalSlices}):`);
     const slice = parseInt(sliceNum);
-    
+
     if (!isNaN(slice) && slice >= 0 && slice <= data.totalSlices) {
         data.currentSlice = slice;
         updateImages(subject);
@@ -265,7 +265,7 @@ function togglePass(subject) {
     const laterButton = document.querySelector(`[data-subject="${subject}"] .later-button`);
     const reasonDropdown = document.getElementById(`reason-${subject}`);
     const data = subjectData[subject];
-    
+
     // Clear other statuses (mutually exclusive)
     if (data.isFailed) {
         data.isFailed = false;
@@ -275,16 +275,16 @@ function togglePass(subject) {
         reasonDropdown.value = '';
         data.failureReason = '';
     }
-    
+
     if (data.isLater) {
         data.isLater = false;
         laterButton.classList.remove('clicked');
         laterButton.textContent = 'Flag for Later QC';
     }
-    
+
     // Toggle PASS
     data.isPassed = !data.isPassed;
-    
+
     if (data.isPassed) {
         button.classList.add('clicked');
         button.textContent = 'PASSED';
@@ -300,23 +300,23 @@ function toggleFail(subject) {
     const laterButton = document.querySelector(`[data-subject="${subject}"] .later-button`);
     const reasonDropdown = document.getElementById(`reason-${subject}`);
     const data = subjectData[subject];
-    
+
     // Clear other statuses (mutually exclusive)
     if (data.isPassed) {
         data.isPassed = false;
         passButton.classList.remove('clicked');
         passButton.textContent = 'Mark as PASS';
     }
-    
+
     if (data.isLater) {
         data.isLater = false;
         laterButton.classList.remove('clicked');
         laterButton.textContent = 'Flag for Later QC';
     }
-    
+
     // Toggle FAIL
     data.isFailed = !data.isFailed;
-    
+
     if (data.isFailed) {
         button.classList.add('clicked');
         button.textContent = 'FAILED';
@@ -336,14 +336,14 @@ function toggleLater(subject) {
     const failButton = document.querySelector(`[data-subject="${subject}"] .fail-button`);
     const reasonDropdown = document.getElementById(`reason-${subject}`);
     const data = subjectData[subject];
-    
+
     // Clear other statuses (mutually exclusive)
     if (data.isPassed) {
         data.isPassed = false;
         passButton.classList.remove('clicked');
         passButton.textContent = 'Mark as PASS';
     }
-    
+
     if (data.isFailed) {
         data.isFailed = false;
         failButton.classList.remove('clicked');
@@ -352,10 +352,10 @@ function toggleLater(subject) {
         reasonDropdown.value = '';
         data.failureReason = '';
     }
-    
+
     // Toggle LATER
     data.isLater = !data.isLater;
-    
+
     if (data.isLater) {
         button.classList.add('clicked');
         button.textContent = 'FLAGGED FOR LATER QC';
@@ -371,9 +371,9 @@ function updateFailureReason(subject, reason) {
     const passButton = document.querySelector(`[data-subject="${subject}"] .pass-button`);
     const failButton = document.querySelector(`[data-subject="${subject}"] .fail-button`);
     const laterButton = document.querySelector(`[data-subject="${subject}"] .later-button`);
-    
+
     data.failureReason = reason;
-    
+
     // Auto-mark as FAIL if reason is selected
     if (reason && !data.isFailed) {
         // Clear other statuses
@@ -382,18 +382,18 @@ function updateFailureReason(subject, reason) {
             passButton.classList.remove('clicked');
             passButton.textContent = 'Mark as PASS';
         }
-        
+
         if (data.isLater) {
             data.isLater = false;
             laterButton.classList.remove('clicked');
             laterButton.textContent = 'Flag for Later QC';
         }
-        
+
         data.isFailed = true;
         failButton.classList.add('clicked');
         failButton.textContent = 'FAILED';
     }
-    
+
     if (data.isFailed && reason) {
         reasonDropdown.classList.remove('required');
     }
@@ -404,7 +404,7 @@ document.addEventListener('input', function(e) {
         const subject = e.target.id.replace('comment-', '');
         subjectData[subject].comment = e.target.value;
     }
-    
+
     if (e.target.id === 'slice-skip-input') {
         const newSkip = parseInt(e.target.value);
         if (!isNaN(newSkip) && newSkip >= 1 && newSkip <= 10) {
@@ -421,25 +421,25 @@ function saveToCSV() {
             missingReasons.push(subject);
         }
     }
-    
+
     if (missingReasons.length > 0) {
         alert(`Please select a failure reason for the following subjects:\n${missingReasons.join('\n')}`);
-        
+
         missingReasons.forEach(subject => {
             const dropdown = document.getElementById(`reason-${subject}`);
             dropdown.classList.add('required');
         });
-        
+
         return;
     }
-    
+
     // Count subjects by status
     let passCount = 0;
     let failCount = 0;
     let laterCount = 0;
     let missingCount = 0;
     let autoPassCount = 0;
-    
+
     for (const subject in subjectData) {
         const data = subjectData[subject];
         if (data.isMissing) {
@@ -455,25 +455,25 @@ function saveToCSV() {
             autoPassCount++;
         }
     }
-    
+
     // Show confirmation with summary
-    const confirmMsg = 
+    const confirmMsg =
         `Ready to save QC results:\n\n` +
         `PASS (marked): ${passCount} | PASS (auto): ${autoPassCount}\n` +
         `FAIL: ${failCount} | FLAG FOR LATER: ${laterCount} | MISSING: ${missingCount}\n\n` +
         `Note: Subjects not marked will auto-save as PASS.\n\n` +
         `Proceed with saving?`;
-    
+
     if (!confirm(confirmMsg)) {
         return;
     }
-    
+
     let csvContent = "Subject,QC Status,Failure Reason,Comments\n";
-    
+
     for (const subject in subjectData) {
         const data = subjectData[subject];
         let status;
-        
+
         if (data.isMissing) {
             status = 'MISSING';
         } else if (data.isFailed) {
@@ -484,12 +484,12 @@ function saveToCSV() {
             // Auto-pass if not marked
             status = 'PASS';
         }
-        
+
         const failureReason = data.failureReason.replace(/"/g, '""');
         const comment = data.comment.replace(/"/g, '""');
         csvContent += `"${subject}","${status}","${failureReason}","${comment}"\n`;
     }
-    
+
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
@@ -497,7 +497,7 @@ function saveToCSV() {
     const hours = String(now.getHours()).padStart(2, '0');
     const minutes = String(now.getMinutes()).padStart(2, '0');
     const dateString = `${year}-${month}-${day}_${hours}-${minutes}`;
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -507,7 +507,7 @@ function saveToCSV() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    
+
     const status = document.getElementById('save-status');
     status.textContent = 'Saved!';
     setTimeout(() => status.textContent = '', 2000);
@@ -549,10 +549,10 @@ document.addEventListener('keydown', function(e) {
     if (isTypingInInput) {
         return;
     }
-    
+
     const subjects = document.querySelectorAll('.subject-container');
     let currentSubject = null;
-    
+
     subjects.forEach(container => {
         const rect = container.getBoundingClientRect();
         const headerHeight = 80;
@@ -560,7 +560,7 @@ document.addEventListener('keydown', function(e) {
             currentSubject = container.dataset.subject;
         }
     });
-    
+
     if (currentSubject && subjectData[currentSubject]) {
         switch(e.key) {
             case 'ArrowLeft':
