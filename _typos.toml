@@ -3,3 +3,5 @@
 thr = "thr"
 center = "center"
 maximization = "maximization"
+colors = "colors"
+ax = "ax"
