@@ -10,16 +10,16 @@
 #### UPDATE THE FOLLOWING TO INTEGRATE WITH EXISTING PIPELINE
 #### Please add code for better logging wherever necessary
 #### <<START EDIT>>
-# subjects_file=<</path/to/subjects.txt>>
-# png_dir=<<Add_data_path>>/bids/derivatives/enigma-pd-wml/PNGS/
-# output_dir=<<Add_data_path>>/bids/derivatives/enigma-pd-wml/QC.
-# qc_guide_dir=<<Add_data_path>>/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
+subjects_file=/path/to/subjects.txt
+png_dir=/bids/derivatives/enigma-pd-wml/PNGS/
+output_dir=/bids/derivatives/enigma-pd-wml/QC.
+qc_guide_dir=/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
 #### <<END EDIT>>
 
 dataset_name=${5:-ENIGMA_WML_QC}
 slice_skip=2  # Landing page slice skip is fixed at 2
 starting_slice=65 # Landing page slice
-subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans 
+subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
 
 mkdir -p "$output_dir"
 
@@ -44,13 +44,13 @@ generate_html_for_registration() {
     local batch=$3
     local start_idx=$4
     local end_idx=$5
-    
+
     # Determine HTML filename
     local file_num=$(printf "%02d" $((batch + 1)))
     local current_html="${dataset_name}_ENIGMA_WML_QC_${reg_label}_${file_num}.html"
-    
+
     echo "Generating $current_html (subjects $((start_idx + 1)) to $end_idx)..."
-    
+
     # Generate HTML header with CSS
     cat > "$output_dir/${current_html}" <<'EOF'
 <!DOCTYPE html>
@@ -59,7 +59,7 @@ generate_html_for_registration() {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ENIGMA-WML QC - REG_LABEL_PLACEHOLDER</title>
-    <link href="style.css" rel="stylesheet" />
+    <link href="qc-styles.css" rel="stylesheet" />
     <script defer src="qc.js"></script>
 </head>
 <body>
@@ -83,10 +83,10 @@ EOF
     # Add subjects to html dropdown
     for ((i=start_idx; i<end_idx; i++)); do
         local subject="${subjects[$i]}"
-        
+
         local base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
         local overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
-        
+
         if [ "$base_count" -gt 0 ] && [ "$base_count" -eq "$overlay_count" ]; then
             cat >> "$output_dir/${current_html}" <<EOF
                 <option value="$subject">$subject</option>
@@ -96,8 +96,8 @@ EOF
 
     # Edit slice skip placeholder
     sed -i "s/SLICE_SKIP_PLACEHOLDER/$slice_skip/g" "$output_dir/${current_html}"
-    
-    # Add QC Guide 
+
+    # Add QC Guide
     cat >> "$output_dir/${current_html}" <<EOF
             </select>
             <button class="qc-guide-button" onclick="openQCGuide()">QC Guide</button>
@@ -114,49 +114,49 @@ EOF
                 <h2>Quality Control Guide</h2>
                 <span class="close-guide" onclick="closeQCGuide()">&times;</span>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Good Segmentation</h3>
                 <img src="$qc_guide_relative_path/good_segmentation.png" alt="Good segmentation">
                 <p>A good segmentation accurately captures all visible WML lesions with minimal false positives.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Registration Issue</h3>
                 <img src="$qc_guide_relative_path/registration_issue.png" alt="Registration issue">
                 <p>Poor alignment between subject's brain and template resulting in distorted shapes or misaligned structures.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Missed Deep WML</h3>
                 <img src="$qc_guide_relative_path/missed_deep_wml.png" alt="Missed deep WML">
                 <p>Deep white matter lesions away from ventricles are not captured by the segmentation.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Missed Periventricular WML</h3>
                 <img src="$qc_guide_relative_path/missed_periventricular_wml.png" alt="Missed periventricular WML">
                 <p>Lesions adjacent to the ventricles are not detected.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Missed Deep and Periventricular WML</h3>
                 <img src="$qc_guide_relative_path/missed_both_wml.png" alt="Missed both">
                 <p>Segmentation fails to capture lesions in both deep white matter and periventricular regions.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Overestimation of WML</h3>
                 <img src="$qc_guide_relative_path/overestimation_wml.png" alt="Overestimation">
                 <p>Segmentation includes too much tissue, capturing regions that are not truly WML.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>Underestimation of WML</h3>
                 <img src="$qc_guide_relative_path/underestimation_wml.png" alt="Underestimation">
                 <p>Segmentation captures some WML but misses significant portions.</p>
             </div>
-            
+
             <div class="qc-example">
                 <h3>WML Outside of White Matter</h3>
                 <img src="$qc_guide_relative_path/wml_outside_white_matter.png" alt="Outside white matter">
@@ -170,14 +170,14 @@ EOF
     # Generate subject sections
     for ((i=start_idx; i<end_idx; i++)); do
         local subject="${subjects[$i]}"
-        
+
         # Count and validate PNGs for registration type
         local base_count=$(ls "$png_dir/$subject/$reg_type"/*_base.png 2>/dev/null | wc -l)
         local overlay_count=$(ls "$png_dir/$subject/$reg_type"/*_overlay.png 2>/dev/null | wc -l)
-        
+
         local is_valid=0
         local error_msg=""
-        
+
         if [ "$base_count" -gt 0 ] || [ "$overlay_count" -gt 0 ]; then
             if [ "$base_count" -ne "$overlay_count" ]; then
                 error_msg="Count mismatch: base=$base_count, overlay=$overlay_count"
@@ -199,8 +199,8 @@ EOF
                 fi
             fi
         fi
-        
-        # Generate HTML 
+
+        # Generate HTML
         if [ "$is_valid" -eq 0 ]; then
             # Missing or incomplete PNGs
             if [ "$base_count" -eq 0 ] && [ "$overlay_count" -eq 0 ]; then
@@ -233,14 +233,14 @@ EOF
 EOF
             fi
         else
-            # Valid subject 
+            # Valid subject
             local slice_count=$base_count
-            
+
             local actual_starting_slice=$starting_slice
             if [ "$actual_starting_slice" -ge "$slice_count" ]; then
                 actual_starting_slice=$((slice_count - 1))
             fi
-            
+
             cat >> "$output_dir/${current_html}" <<EOF
     <div class="subject-container" data-subject="$subject" id="subject-$subject">
         <div class="subject-header">
@@ -258,9 +258,9 @@ EOF
                 </div>
                 <div class="navigation">
                     <div class="slice-slider-container">
-                        <input type="range" class="slice-slider" id="slider-$subject" 
-                               min="0" max="$((slice_count - 1))" value="$actual_starting_slice" 
-                               onchange="sliderChange('$subject', this.value)" 
+                        <input type="range" class="slice-slider" id="slider-$subject"
+                               min="0" max="$((slice_count - 1))" value="$actual_starting_slice"
+                               onchange="sliderChange('$subject', this.value)"
                                oninput="sliderChange('$subject', this.value)">
                     </div>
                     <button class="nav-btn" onclick="jumpToSlice('$subject')">Jump to Slice</button>
@@ -284,7 +284,7 @@ EOF
                 </div>
             </div>
         </div>
-        
+
         <div class="image-section">
             <div class="registration-view">
                 <div class="registration-label">$reg_label Registration</div>
@@ -301,7 +301,7 @@ EOF
     sed -i "s/DATASET_NAME_PLACEHOLDER/$dataset_name/g" "$output_dir/qc.js"
     sed -i "s/REG_TYPE_PLACEHOLDER/$reg_type/g" "$output_dir/qc.js"
     sed -i "s/REG_LABEL_PLACEHOLDER/$reg_label/g" "$output_dir/qc.js"
-    
+
     # Close HTML
     cat >> "$output_dir/${current_html}" <<'EOF'
 </body>
@@ -316,10 +316,10 @@ for ((batch=0; batch<num_html_files; batch++)); do
     if [ $end_idx -gt $total_subjects ]; then
         end_idx=$total_subjects
     fi
-    
+
     # Generate Linear HTML
     generate_html_for_registration "lin" "Linear" $batch $start_idx $end_idx
-    
+
     # Generate Nonlinear HTML
     generate_html_for_registration "nonlin" "Nonlinear" $batch $start_idx $end_idx
 done
@@ -356,20 +356,20 @@ for subject in "${subjects[@]}"; do
     nonlin_overlay_count=$(ls "$png_dir/$subject/nonlin"/*_overlay.png 2>/dev/null | wc -l)
     lin_base_count=$(ls "$png_dir/$subject/lin"/*_base.png 2>/dev/null | wc -l)
     lin_overlay_count=$(ls "$png_dir/$subject/lin"/*_overlay.png 2>/dev/null | wc -l)
-    
+
     nonlin_ok=0
     lin_ok=0
-    
+
     if [ "$nonlin_base_count" -gt 0 ] && [ "$nonlin_base_count" -eq "$nonlin_overlay_count" ]; then
         nonlin_ok=1
         ((valid_nonlinear++))
     fi
-    
+
     if [ "$lin_base_count" -gt 0 ] && [ "$lin_base_count" -eq "$lin_overlay_count" ]; then
         lin_ok=1
         ((valid_linear++))
     fi
-    
+
     if [ "$nonlin_ok" -eq 1 ] && [ "$lin_ok" -eq 1 ]; then
         ((valid_both++))
     elif [ "$nonlin_base_count" -eq 0 ] && [ "$nonlin_overlay_count" -eq 0 ] && [ "$lin_base_count" -eq 0 ] && [ "$lin_overlay_count" -eq 0 ]; then
