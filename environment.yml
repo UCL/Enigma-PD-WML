@@ -1,0 +1,15 @@
+name: enigma_pd_wml_env
+channels:
+  - https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/
+  - conda-forge
+dependencies:
+  - fsl-avwutils
+  - fsl-misc_scripts
+  - fsl-flirt
+  - fsl-bet2
+  - fsl-bianca
+  - fsl-biancadata
+  - fsl-fnirt
+  - fsl-fast4
+  - fsl-data_standard
+  - fsl-data_atlases
