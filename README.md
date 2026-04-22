@@ -189,10 +189,8 @@ After running your analysis, your data directory should have the following struc
 ```bash
 data
 ├── enigma-pd-wml.log
-├── dataset_description.json
 ├── derivatives
 │   └── enigma-pd-wml
-│       ├── enigma-pd-wml-results.zip
 │       └── sub-1
 │           ├── ses-1
 │           │   ├── input/
