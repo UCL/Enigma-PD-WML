@@ -279,11 +279,23 @@ See notes on [quality control](docs/qc.md) for the WML pipeline.
 
 New interactive QC feature soon to be added.
 
+## Periventricular and deep WML clustering
+
+The ENIGMA-PD-WML pipeline uses a 10mm fixed distance from the ventricles to categorise WML as periventricular and deep; however, this approach can split large confluent lesions, resulting in the same lesion being classified as both periventricular and deep.
+
+The [Enigma-PD-WML-CLustering](https://github.com/reneemapa1/Enigma-PD-WML-Clustering) pipeline has been developed to use output images from the ENIGMA-PD-WML pipeline to classify WML in subjects with a high lesion load (> 10cm³) as periventricular, deep and confluent. This can be run as an additional module following completion of the ENIGMA-PD-WML pipeline and results in three binary lesion maps:
+
+- `periventricular_lesions.nii.gz`: WML entirely within 10mm of the ventricles.
+- `deep_lesions.nii.gz`: WML entirely outside the 10mm boundary.
+- `confluent_lesions.nii.gz`: WML spanning the 10mm boundary (only in high lesion load subjects).
+
+For more details see [Enigma-PD-WML-CLustering](https://github.com/reneemapa1/Enigma-PD-WML-Clustering).
+
 ## Common issues
 
 ### Tensorflow memory usage
 
-A common issue is UNets-pgs failing due to high memory usage. You may see warnings / errors in your subject logs
+A common issue is UNet-pgs failing due to high memory usage. You may see warnings / errors in your subject logs
 similar to:
 
 - `tensorflow/core/framework/allocator.cc:124] Allocation of 675840000 exceeds 10% of system memory.`
