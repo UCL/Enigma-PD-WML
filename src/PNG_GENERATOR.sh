@@ -1,3 +1,34 @@
+#!/bin/bash
+# Written by Sunanda Somu
+# ----------- Usage ----------------------------------------------------------------------------------------------------------------------------------
+# PNG_GENERATOR.sh /path/to/subjects.txt /path/to/data_dir /path/to/output_png_dir /path/to/python_binary
+# This script generates PNG images for each axial slice (n = 182; MNI space)
+# from the pipeline’s outputs.
+#
+# Non-linear registration:
+#   - Base image:    FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+#   - WML overlay:   results2mni_nonlin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+#
+# Linear registration:
+#   - Base image:    FLAIR_biascorr_brain_to_MNI_lin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+#   - WML overlay:   results2mni_lin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+#### UPDATE THE FOLLOWING TO INTEGRATE WITH EXISTING PIPELINE
+#### Please add code for better logging wherever necessary
+#### <<START EDIT>>
+subject=sub-1
+data_dir=/bids/derivatives/enigma-pd-wml/
+output_dir=/bids/derivatives/enigma-pd-wml/PNGS   ###This is the directory that will store all the subjects PNGs
+python_bin=/path/to/python_binary
+# << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS IN THE PYTHON CODE>>
+#### <<END EDIT>>
+
+mkdir -p "$output_dir"
+echo "Processing subject: $subject"
+
+# Embedded Python script
+${python_bin}/python - "$subject" "$data_dir" "$output_dir" <<'EOF'
 import os
 import sys
 import glob
@@ -7,7 +38,6 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
-
 
 def process_registration_type(subj, data_dir, outdir, reg_type):
     """Process either 'nonlin' or 'lin' registration with error checks"""
@@ -129,7 +159,6 @@ def process_registration_type(subj, data_dir, outdir, reg_type):
 
     return True
 
-
 # Main execution
 try:
     subj, data_dir, outdir = sys.argv[1:]
@@ -153,3 +182,4 @@ elif not nonlin_success or not lin_success:
 else:
     print(f"Successfully processed {subj} for both registration types")
     sys.exit(0)
+EOF
