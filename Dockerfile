@@ -21,9 +21,10 @@ ENV PATH="$PATH:/conda/bin"
 COPY environment.yml .
 RUN conda env create --file environment.yml
 
-ENV FSLDIR=/conda/envs/enigma_pd_wml_env
+# Set FSL environment variables
+ENV FSLENV=enigma_pd_wml_env
+ENV FSLDIR=/conda/envs/${FSLENV}
 ENV PATH=${FSLDIR}/share/fsl/bin:${PATH}
-ENV PATH=${FSLDIR}/bin:$PATH
 
 COPY src .
 RUN mkdir /data

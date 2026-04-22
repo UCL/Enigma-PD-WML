@@ -385,6 +385,10 @@ function runAnalysis (){
    # so set them again here
    set -euo pipefail
 
+   # Make FSL and conda commands available
+  . ${FSLDIR}/etc/fslconf/fsl.sh
+  . /conda/etc/profile.d/conda.sh
+
    flair_fn=$1
    t1_fn=$2
    data_outfile=$3
@@ -415,11 +419,20 @@ function runAnalysis (){
    cp ${t1_fn}    t1vol_orig.nii.gz
    cp ${flair_fn} flairvol_orig.nii.gz
 
+   # activate conda env used for FSL
+   conda activate "${FSLENV}"
+
    fslAnat
    flairPrep
    ventDistMapping
    prepImagesForUnet
+
+   # temporarily deactivate conda env for unet step. This uses
+   # another python install from the base cvriend/pgs image
+   conda deactivate
    unetsPgs
+   conda activate "${FSLENV}"
+
    processOutputs
 
    cd ${data_outdir}/output
@@ -465,11 +478,6 @@ function parseArguments() {
 }
 
 function setupRunAnalysis(){
-  # FSL Setup
-  FSLDIR=/usr/local/fsl
-  PATH=${FSLDIR}/share/fsl/bin:${PATH}
-  export FSLDIR PATH
-  . ${FSLDIR}/etc/fslconf/fsl.sh
 
   parseArguments "$@"
 
