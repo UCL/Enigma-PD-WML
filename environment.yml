@@ -13,3 +13,4 @@ dependencies:
   - fsl-fast4=2111.3
   - fsl-data_standard=2208.0
   - fsl-data_atlases=2103.0
+  - matplotlib=3.10.8
