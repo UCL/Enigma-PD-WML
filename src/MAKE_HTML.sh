@@ -7,13 +7,9 @@
 # Sunanda's cmd: ./MAKE_HTML.sh /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_subjects.txt /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_PNGS/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/QC_GUIDE_EXAMPLES/ UCSF
 # ----------------------------
 
-#### UPDATE THE FOLLOWING TO INTEGRATE WITH EXISTING PIPELINE
-#### Please add code for better logging wherever necessary
-#### <<START EDIT>>
 png_dir=data/derivatives/enigma-pd-wml/QC/PNGS
 output_dir=data/derivatives/enigma-pd-wml/QC
 qc_guide_dir=/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
-#### <<END EDIT>>
 
 dataset_name=${5:-ENIGMA_WML_QC}
 slice_skip=2  # Landing page slice skip is fixed at 2

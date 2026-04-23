@@ -2,8 +2,11 @@
 
 Written by Sunanda Somu.
 
-This script generates PNG images for each axial slice (n = 182; MNI space)
-from the pipeline’s outputs.
+This script generates PNG images for each axial slice of a single subject id
+(n = 182; MNI space) from the pipeline outputs.
+
+Call with command-line arguments like:
+png_generator.py <subject_id> <data_dir> <output_dir>
 
 Non-linear registration:
   - Base image:    FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>

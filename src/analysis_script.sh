@@ -444,6 +444,25 @@ function runAnalysis (){
 
 }
 
+function runQC(){
+
+   # TODO - add checks to enable skipping like the other functions above
+
+   . /conda/etc/profile.d/conda.sh
+   conda activate "${FSLENV}"
+
+   data_dir=${data_path}/derivatives/enigma-pd-wml
+   png_dir=${data_dir}/QC/PNGS
+
+   for subject_dir in "${data_dir}"/sub-*/;
+   do
+    subject=$(basename $subject_dir)
+    python png_generator.py "$subject" "$data_dir" "$png_dir"
+   done
+
+   ./MAKE_HTML.sh
+}
+
 function parseArguments() {
   n=1
   subjects_file=""
@@ -567,6 +586,8 @@ function setupRunAnalysis(){
         ">" "'${data_path}/derivatives/enigma-pd-wml/{1}/{2}/{1}_{2}.log'" "2>&1"
     fi
   fi
+
+  runQC
 
 }
 
