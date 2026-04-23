@@ -10,9 +10,9 @@
 #### UPDATE THE FOLLOWING TO INTEGRATE WITH EXISTING PIPELINE
 #### Please add code for better logging wherever necessary
 #### <<START EDIT>>
-subjects_file=/path/to/subjects.txt
-png_dir=/bids/derivatives/enigma-pd-wml/PNGS/
-output_dir=/bids/derivatives/enigma-pd-wml/QC.
+subjects_file=data/derivatives/enigma-pd-wml/subjects.txt
+png_dir=data/derivatives/enigma-pd-wml/QC/PNGS
+output_dir=data/derivatives/enigma-pd-wml/QC
 qc_guide_dir=/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
 #### <<END EDIT>>
 
