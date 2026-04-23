@@ -10,7 +10,6 @@
 #### UPDATE THE FOLLOWING TO INTEGRATE WITH EXISTING PIPELINE
 #### Please add code for better logging wherever necessary
 #### <<START EDIT>>
-subjects_file=data/derivatives/enigma-pd-wml/subjects.txt
 png_dir=data/derivatives/enigma-pd-wml/QC/PNGS
 output_dir=data/derivatives/enigma-pd-wml/QC
 qc_guide_dir=/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
@@ -23,7 +22,14 @@ subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
 
 mkdir -p "$output_dir"
 
-subjects=($(cat "$subjects_file"))
+# Get list of subject ids, by listing the directories inside
+# the png_dir
+subjects=()
+for subject_dir in "$png_dir"/*/;
+do
+    subjects+=("$(basename $subject_dir)")
+done
+
 total_subjects=${#subjects[@]}
 num_html_files=$(( (total_subjects + subjects_per_html - 1) / subjects_per_html ))
 
