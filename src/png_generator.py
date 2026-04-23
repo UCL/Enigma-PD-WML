@@ -51,7 +51,7 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
     """
 
     base_pattern = f"FLAIR_biascorr_brain_to_MNI_{reg_type}.nii.gz"
-    overlay_pattern = f"results2mni_{reg_type}.nii.gz"
+    overlay_pattern = f"results2mni_{reg_type}_combined.nii.gz"
 
     # extract subject and session name from path
     session = Path(data_dir).name
