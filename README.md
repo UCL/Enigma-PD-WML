@@ -279,9 +279,16 @@ New interactive QC feature soon to be added.
 
 ## Periventricular and deep WML clustering
 
-The ENIGMA-PD-WML pipeline uses a 10 mm fixed distance from the ventricles to categorise WML as periventricular and deep; however, this approach can split large confluent lesions, resulting in the same lesion being classified as both periventricular and deep.
+The ENIGMA-PD-WML pipeline uses a 10 mm fixed distance from the ventriclesto categorise WML as periventricular and deep;
+however, this approach can split large confluent lesions, resulting in the same lesion being classified as both
+periventricular and deep.
 
-The [Enigma-PD-WML-Clustering pipeline](https://github.com/reneemapa1/Enigma-PD-WML-Clustering) has been developed to use output images from the ENIGMA-PD-WML pipeline to classify WML in subjects with a high lesion load (> 10 cm³) as periventricular, deep and confluent. This can be run as an additional module following completion of the ENIGMA-PD-WML pipeline and results in three binary lesion maps:
+The [Enigma-PD-WML-Clustering pipeline](https://github.com/reneemapa1/Enigma-PD-WML-Clustering) has been developed to
+use output images from the ENIGMA-PD-WML pipeline to classify WML in subjects with a high lesion load (> 10 cm³) as
+periventricular, deep and confluent.
+
+This can be run as an additional module following completion of the ENIGMA-PD-WML pipeline and results in three binary
+lesion maps:
 
 - `periventricular_lesions.nii.gz`: WML entirely within 10 mm of the ventricles.
 - `deep_lesions.nii.gz`: WML entirely outside the 10 mm boundary.
