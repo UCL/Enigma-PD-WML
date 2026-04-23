@@ -7,38 +7,6 @@
 # Sunanda's cmd: ./MAKE_HTML.sh /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_subjects.txt /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_PNGS/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/QC_GUIDE_EXAMPLES/ UCSF
 # ----------------------------
 
-png_dir=data/derivatives/enigma-pd-wml/QC/PNGS
-output_dir=data/derivatives/enigma-pd-wml/QC
-qc_guide_dir=/bids/derivatives/enigma-pd-wml/QC/QC_GUIDE_EXAMPLES/
-
-dataset_name=${5:-ENIGMA_WML_QC}
-slice_skip=2  # Landing page slice skip is fixed at 2
-starting_slice=65 # Landing page slice
-subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
-
-mkdir -p "$output_dir"
-
-# Get list of subject ids, by listing the directories inside
-# the png_dir
-subjects=()
-for subject_dir in "$png_dir"/*/;
-do
-    subjects+=("$(basename $subject_dir)")
-done
-
-total_subjects=${#subjects[@]}
-num_html_files=$(( (total_subjects + subjects_per_html - 1) / subjects_per_html ))
-
-png_relative_path=$(realpath --relative-to="$output_dir" "$png_dir")
-qc_guide_relative_path=$(realpath --relative-to="$output_dir" "$qc_guide_dir")
-
-echo "========================================="
-echo "Generating $num_html_files HTML file(s) for each registration type (linear and nonlinear)"
-echo "Subjects per file: $subjects_per_html"
-echo "Default slice skip interval: $slice_skip"
-echo "========================================="
-echo ""
-
 # Function to generate HTML for a specific registration type
 generate_html_for_registration() {
     local reg_type=$1  # "lin" or "nonlin"
@@ -1433,6 +1401,45 @@ JSEOF
 </html>
 EOF
 }
+
+# Parse arguments from command-line
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <png_dir> <output_dir> <qc_quide_dir>"
+    exit 1
+fi
+png_dir=$1
+output_dir=$2
+qc_guide_dir=$3
+
+dataset_name=${5:-ENIGMA_WML_QC}
+slice_skip=2  # Landing page slice skip is fixed at 2
+starting_slice=65 # Landing page slice
+subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
+
+mkdir -p "$output_dir"
+
+# Get list of subject ids, by listing the directories inside
+# the png_dir
+subjects=()
+for subject_dir in "$png_dir"/*/;
+do
+    subjects+=("$(basename $subject_dir)")
+done
+
+total_subjects=${#subjects[@]}
+num_html_files=$(( (total_subjects + subjects_per_html - 1) / subjects_per_html ))
+
+png_relative_path=$(realpath --relative-to="$output_dir" "$png_dir")
+qc_guide_relative_path=$(realpath --relative-to="$output_dir" "$qc_guide_dir")
+
+echo ""
+echo "Starting QC HTML step"
+echo "========================================="
+echo "Generating $num_html_files HTML file(s) for each registration type (linear and nonlinear)"
+echo "Subjects per file: $subjects_per_html"
+echo "Default slice skip interval: $slice_skip"
+echo "========================================="
+echo ""
 
 # Loop through batches and generate HTML files for both registration types
 for ((batch=0; batch<num_html_files; batch++)); do
