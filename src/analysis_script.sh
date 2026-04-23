@@ -491,24 +491,22 @@ function setupRunAnalysis(){
 
   if [[ -n "$csv_file" ]]; then
     echo "Using CSV file: ${csv_file}"
-    echo "See logs for each session in their respective output folders"
+    echo "See logs for each session in their respective folders: derivatives/enigma-pd-wml/sub-*/ses-*/"
     if [[ $n -eq 1 ]]; then
       echo "Running sequentially on 1 core"
-      while IFS=',' read -r flair_fn t1_fn data_outfile; do
+      while IFS=',' read -r flair_fn t1_fn subject session; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
-          data_outdir=$(dirname "${data_path}/${data_outfile}")
+          data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
+          data_outfile=${data_outdir}/sub-${subject}_ses-${session}_results
           mkdir -p ${data_outdir}
-          echo ${flair_fn}
-          echo ${t1_fn}
-          echo ${data_outdir}
-          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_path}/${data_outfile}.zip" > "${data_path}/${data_outfile}.log" 2>&1
+          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}.zip" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
     else
       echo "Running in parallel with ${n} jobs"
-      while IFS=',' read -r flair_fn t1_fn data_outfile; do
+      while IFS=',' read -r flair_fn t1_fn subject session; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
-          data_outdir=$(dirname "${data_path}/${data_outfile}")
+          data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           mkdir -p ${data_outdir}
         fi
       done < "$csv_file"
@@ -517,8 +515,8 @@ function setupRunAnalysis(){
           runAnalysis \
           "${data_path}/{1}" \
           "${data_path}/{2}" \
-          "${data_path}/{3}.zip" \
-          ">" "'${data_path}/{3}.log'" "2>&1"
+          "${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.zip" \
+          ">" "'${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.log'" "2>&1"
     fi
   else
     # Include subjects from file if provided
@@ -545,7 +543,7 @@ function setupRunAnalysis(){
       sessions=$(find ${data_path}/${subject}/ses-*/anat/${subject}_ses-*_T1w.nii.gz | xargs -n 1 dirname | xargs -n 1 dirname | xargs -n 1 basename)
       for session in $sessions; do
         subjects_sessions+=("${subject} ${session}")
-        mkdir -p ${data_path}/derivatives/enigma-pd-wml/${subject}/${session}
+        mkdir -p ${derivatives_path}/${subject}/${session}
       done
     done
 
@@ -560,8 +558,8 @@ function setupRunAnalysis(){
         session=$(echo $subject_session | cut -d ' ' -f 2)
         t1_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_T1w.nii.gz)
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
-        data_outdir=${data_path}/derivatives/enigma-pd-wml/${subject}/${session}
-        data_outfile=${data_path}/derivatives/enigma-pd-wml/${subject}/${session}/${subject}_${session}_results.zip
+        data_outdir=${derivatives_path}/${subject}/${session}
+        data_outfile=${derivatives_path}/${subject}/${session}/${subject}_${session}_results.zip
         runAnalysis "$flair_fn" "$t1_fn" "$data_outfile" > "${data_outdir}/${subject}_${session}.log" 2>&1
       done
     else
@@ -571,8 +569,8 @@ function setupRunAnalysis(){
         runAnalysis \
         "${data_path}/{1}/{2}/anat/{1}_{2}_FLAIR.nii.gz" \
         "${data_path}/{1}/{2}/anat/{1}_{2}_T1w.nii.gz" \
-        "${data_path}/derivatives/enigma-pd-wml/{1}/{2}/{1}_{2}.zip" \
-        ">" "'${data_path}/derivatives/enigma-pd-wml/{1}/{2}/{1}_{2}.log'" "2>&1"
+        "${derivatives_path}/{1}/{2}/{1}_{2}.zip" \
+        ">" "'${derivatives_path}/{1}/{2}/{1}_{2}.log'" "2>&1"
     fi
   fi
 

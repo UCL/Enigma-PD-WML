@@ -1417,8 +1417,9 @@ subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
 
 mkdir -p "$output_dir"
 
-# Get list of subject ids, by listing the directories inside
-# the png_dir
+# Get list of subjects ids (each of form sub-#-ses-#), by listing directories
+# inside the png dir. There may be multiple sessions per subject in this list
+# like: [sub-1-ses-1, sub-1-ses-2...]
 subjects=()
 for subject_dir in "$png_dir"/*/;
 do
