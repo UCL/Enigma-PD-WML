@@ -3,6 +3,7 @@ channels:
   - https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/public/
   - conda-forge
 dependencies:
+  - python=3.14.4
   - fsl-avwutils=2209.6
   - fsl-misc_scripts=2111.0
   - fsl-flirt=2111.4
