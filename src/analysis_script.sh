@@ -573,7 +573,9 @@ function setupRunAnalysis(){
 
   # Make QC html files, that summarise all processed subjects and sessions
   qc_dir=${derivatives_path}/QC
-  /MAKE_HTML.sh  ${qc_dir}/PNGS ${qc_dir} ${qc_dir}/QC_guide_examples
+  qc_guide_dir=${qc_dir}/QC_guide_examples
+  cp -r /qc_guide_images "$qc_guide_dir"
+  /MAKE_HTML.sh  "${qc_dir}/PNGS" "${qc_dir}" "${qc_guide_dir}"
 }
 
 # assign paths for code and input data directories, as well as overall log file

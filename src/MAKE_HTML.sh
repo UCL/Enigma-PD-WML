@@ -3,8 +3,7 @@
 # ENIGMA WML QC: Generates separate HTML files for linear and nonlinear registrations
 
 # ----------- Usage ----------
-# ./MAKE_HTML_VER3.sh subjects.txt /path/to/png_dir /path/to/output_dir /path/to/qc_guide_dir [dataset_name]
-# Sunanda's cmd: ./MAKE_HTML.sh /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_subjects.txt /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/UCSF_PNGS/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/ /scratch/faculty/njahansh/nerds/sunanda/Pipelines/Enigma-PD-WML/scripts/QC/ver3/QC_GUIDE_EXAMPLES/ UCSF
+# ./MAKE_HTML.sh /path/to/png_dir /path/to/output_dir /path/to/qc_guide_dir [dataset_name]
 # ----------------------------
 
 # Function to generate HTML for a specific registration type
