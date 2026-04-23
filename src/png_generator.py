@@ -142,7 +142,7 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
             base_png = os.path.join(out_subj_dir, f"{i}_base.png")
             overlay_png = os.path.join(out_subj_dir, f"{i}_overlay.png")
 
-            if not Path(base_png).exists:
+            if not Path(base_png).exists():
                 base_slice = np.rot90(base_data[:, :, i])
 
                 # Save base slice
@@ -154,7 +154,7 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
                 plt.savefig(base_png, bbox_inches='tight', pad_inches=0, dpi=100)
                 plt.close(fig)
 
-            if not Path(overlay_png).exists:
+            if not Path(overlay_png).exists():
                 overlay_slice = np.rot90(overlay_data[:, :, i])
 
                 # Save WML overlay slice
