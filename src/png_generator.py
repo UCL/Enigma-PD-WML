@@ -139,29 +139,35 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
     failed_slices = []
     for i in range(n_slices):
         try:
-            base_slice = np.rot90(base_data[:, :, i])
-            overlay_slice = np.rot90(overlay_data[:, :, i])
-
-            # Save base slice
-            fig, ax = plt.subplots(figsize=(6, 6), dpi=100)
-            ax.imshow(base_slice, cmap='gray', interpolation='none')
-            ax.axis('off')
-            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
             base_png = os.path.join(out_subj_dir, f"{i}_base.png")
-            plt.savefig(base_png, bbox_inches='tight', pad_inches=0, dpi=100)
-            plt.close(fig)
-
-            # Save WML overlay slice
-            fig, ax = plt.subplots(figsize=(6, 6), dpi=100)
-            overlay_mask = np.ma.masked_where(overlay_slice == 0, np.ones_like(overlay_slice))
-            ax.imshow(base_slice, cmap='gray', interpolation='none')
-            ax.imshow(overlay_mask, cmap=blue_cmap, vmin=0, vmax=1,
-                  alpha=0.9, interpolation='none')
-            ax.axis('off')
-            plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
             overlay_png = os.path.join(out_subj_dir, f"{i}_overlay.png")
-            plt.savefig(overlay_png, bbox_inches='tight', pad_inches=0, dpi=100)
-            plt.close(fig)
+
+            if not Path(base_png).exists:
+                base_slice = np.rot90(base_data[:, :, i])
+
+                # Save base slice
+                fig, ax = plt.subplots(figsize=(6, 6), dpi=100)
+                ax.imshow(base_slice, cmap='gray', interpolation='none')
+                ax.axis('off')
+                plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+                base_png = os.path.join(out_subj_dir, f"{i}_base.png")
+                plt.savefig(base_png, bbox_inches='tight', pad_inches=0, dpi=100)
+                plt.close(fig)
+
+            if not Path(overlay_png).exists:
+                overlay_slice = np.rot90(overlay_data[:, :, i])
+
+                # Save WML overlay slice
+                fig, ax = plt.subplots(figsize=(6, 6), dpi=100)
+                overlay_mask = np.ma.masked_where(overlay_slice == 0, np.ones_like(overlay_slice))
+                ax.imshow(base_slice, cmap='gray', interpolation='none')
+                ax.imshow(overlay_mask, cmap=blue_cmap, vmin=0, vmax=1,
+                    alpha=0.9, interpolation='none')
+                ax.axis('off')
+                plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
+                overlay_png = os.path.join(out_subj_dir, f"{i}_overlay.png")
+                plt.savefig(overlay_png, bbox_inches='tight', pad_inches=0, dpi=100)
+                plt.close(fig)
 
         except Exception as e:
             print(f"WARNING: {log_id}: Failed to save slice {i}: {e}")
