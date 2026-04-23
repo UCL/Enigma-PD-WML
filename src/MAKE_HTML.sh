@@ -3,7 +3,7 @@
 # ENIGMA WML QC: Generates separate HTML files for linear and nonlinear registrations
 
 # ----------- Usage ----------
-# ./MAKE_HTML.sh /path/to/png_dir /path/to/output_dir /path/to/qc_guide_dir [dataset_name]
+# ./MAKE_HTML.sh /path/to/png_dir /path/to/output_dir /path/to/qc_guide_dir dataset_name
 # ----------------------------
 
 # Function to generate HTML for a specific registration type
@@ -1402,15 +1402,15 @@ EOF
 }
 
 # Parse arguments from command-line
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 <png_dir> <output_dir> <qc_quide_dir>"
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <png_dir> <output_dir> <qc_quide_dir> <dataset_name>"
     exit 1
 fi
 png_dir=$1
 output_dir=$2
 qc_guide_dir=$3
+dataset_name=$4
 
-dataset_name=${5:-ENIGMA_WML_QC}
 slice_skip=2  # Landing page slice skip is fixed at 2
 starting_slice=65 # Landing page slice
 subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
