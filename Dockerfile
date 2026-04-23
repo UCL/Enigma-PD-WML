@@ -13,8 +13,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install miniforge
-RUN wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/download/26.1.1-3/Miniforge3-26.1.1-3-Linux-x86_64.sh"
-RUN bash Miniforge3.sh -b -p "/conda"
+RUN wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/download/26.1.1-3/Miniforge3-26.1.1-3-Linux-x86_64.sh" && \
+    bash Miniforge3.sh -b -p "/conda" && \
+    rm Miniforge3.sh
 ENV PATH="$PATH:/conda/bin"
 
 # Install python dependencies including FSL
