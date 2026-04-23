@@ -442,25 +442,9 @@ function runAnalysis (){
       T1_biascorr_brain_to_MNI_*lin.nii.gz \
       FLAIR_biascorr_brain_to_MNI_*lin.nii.gz
 
-}
-
-function runQC(){
-
-   # TODO - add checks to enable skipping like the other functions above
-
-   . /conda/etc/profile.d/conda.sh
-   conda activate "${FSLENV}"
-
-   data_dir=${data_path}/derivatives/enigma-pd-wml
-   png_dir=${data_dir}/QC/PNGS
-
-   for subject_dir in "${data_dir}"/sub-*/;
-   do
-    subject=$(basename $subject_dir)
-    python png_generator.py "$subject" "$data_dir" "$png_dir"
-   done
-
-   ./MAKE_HTML.sh
+   # Generate qc pngs for this subject / session
+   png_dir=${derivatives_path}/QC/PNGS
+   python /png_generator.py "$data_outdir" "$png_dir"
 }
 
 function parseArguments() {
@@ -587,12 +571,13 @@ function setupRunAnalysis(){
     fi
   fi
 
-  runQC
-
+  # Make QC html files, that summarise all processed subjects and sessions
+  /MAKE_HTML.sh
 }
 
 # assign paths for code and input data directories, as well as overall log file
 export data_path=/data
+export derivatives_path=${data_path}/derivatives/enigma-pd-wml
 echo "See overall log at enigma-pd-wml.log in your data directory"
 export overall_log=${data_path}/enigma-pd-wml.log
 
