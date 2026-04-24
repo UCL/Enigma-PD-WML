@@ -279,7 +279,7 @@ New interactive QC feature soon to be added.
 
 ## Periventricular and deep WML clustering
 
-The ENIGMA-PD-WML pipeline uses a 10 mm fixed distance from the ventriclesto categorise WML as periventricular and deep;
+The ENIGMA-PD-WML pipeline uses a 10 mm fixed distance from the ventricles to categorise WML as periventricular and deep;
 however, this approach can split large confluent lesions, resulting in the same lesion being classified as both
 periventricular and deep.
 
