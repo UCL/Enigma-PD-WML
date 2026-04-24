@@ -21,6 +21,9 @@ flowchart TD
     unet --> process_output
 ```
 
+After processing, the pipeline also generates some QC output. [See the QC docs](./qc_pipeline.md) for more information
+on those steps.
+
 ## fsl_anat
 
 First, FSL's `fsl_anat` tool is run on the input T1 image and its output saved to
@@ -92,7 +95,4 @@ This includes steps to:
 The pipeline will generate multiple `.zip` files - one per session, stored within the corresponding session
 sub-folder, e.g. `derivatives/enigma-pd-wml/sub-1/ses-1/sub-1_ses-1_results.zip`.
 
-A top-level zip file will also be created (`derivatives/enigma-pd-wml/enigma-pd-wml-results.zip`). This will contain all
-zip files for each session.
-
-**Please send this top-level zip file to the ENIGMA-PD Vasc team.**
+**Please send these zip files to the ENIGMA-PD Vasc team.**
