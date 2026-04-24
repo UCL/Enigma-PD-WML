@@ -151,7 +151,6 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
                 ax.imshow(base_slice, cmap='gray', interpolation='none')
                 ax.axis('off')
                 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-                base_png = os.path.join(out_subj_dir, f"{i}_base.png")
                 plt.savefig(base_png, bbox_inches='tight', pad_inches=0, dpi=100)
                 plt.close(fig)
 
@@ -166,7 +165,6 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
                     alpha=0.9, interpolation='none')
                 ax.axis('off')
                 plt.subplots_adjust(left=0, right=1, top=1, bottom=0)
-                overlay_png = os.path.join(out_subj_dir, f"{i}_overlay.png")
                 plt.savefig(overlay_png, bbox_inches='tight', pad_inches=0, dpi=100)
                 plt.close(fig)
 
