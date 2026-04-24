@@ -105,5 +105,4 @@ All requirements for the UNets-pgs workflow come from the
 
 FSL is installed as detailed in their [installation docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/container)
 and [configuration docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/configuration). We're using the `-V` option at
-the end of the `fslinstaller` command to [fix it to a specific FSL version
-](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/index?id=installing-older-versions-of-fsl).
+the end of the `fslinstaller` command to [fix it to a specific FSL version](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/index?id=installing-older-versions-of-fsl).
