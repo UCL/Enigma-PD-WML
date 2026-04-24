@@ -173,7 +173,7 @@ Note, this requires either:
 - `-l` : path to CSV file containing list of subjects to include in the analysis. This should only be used if you would
   like to [run the pipeline on non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
 
-- `-h`: The prefix to use for HTML files generated as part of the QC workflow.
+- `-h`: The prefix to use for HTML files generated as part of the [QC workflow](./docs/qc_usage.md).
 
   E.g. a prefix of 'dataset_a' would result in html files named like: dataset_a_ENIGMA_WML_QC_Linear_01.html. If you are
   running the enigma-pd-wml pipeline multiple times with different datasets, you must set this prefix to a different
