@@ -289,7 +289,7 @@ Pipeline logs can be found at:
 The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that allow interactive browsing and assessment
 of the output images.
 
-See the [quality control docs](docs/qc.md) for more information on how to use this feature.
+See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature.
 
 ## Common issues
 
