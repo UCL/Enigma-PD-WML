@@ -3,7 +3,7 @@
 As with any automated pipeline, some form of manual quality control (QC) step is required to ensure the pipeline has
 performed correctly and the outputs generated are adequate for further analysis. To make this process as efficient as
 possible, our pipeline uses a 2-step framework that transforms NIfTI volumes into an interactive, browser-based HTML
-interface. [See the QC pipeline docs](./qc_pipeline.py) for technical details of how this process works.
+interface. [See the QC pipeline docs](./qc_pipeline.md) for technical details of how this process works.
 
 This approach enables visual examination of white matter lesion (WML) segmentations by overlaying the WML masks
 (rendered in solid blue) onto FLAIR images registered to MNI standard space. Both linear and nonlinear registration
@@ -67,11 +67,12 @@ To ensure consistency across raters and sites, there is a standard set of
 failure categories to choose from when marking a scan as FAIL:
 
 - **Registration issue**: misalignment between FLAIR and MNI space.
-- **WML Outside of White Matter**: WML segmentations in gray matter or CSF
-- **Overestimation of WML**: segmentation extends beyond true lesion boundaries
 - **Missed Deep WML**: undetected lesions in deep white matter
+- **Missed Periventricular WML**: undetected lesions adjacent to ventricles
 - **Missed Deep and Periventricular WML**: both regions affected
+- **Overestimation of WML**: segmentation extends beyond true lesion boundaries
 - **Underestimation of WML**: incomplete lesion coverage
+- **WML Outside of White Matter**: WML segmentations in gray matter or CSF
 
 Use the QC guide to see examples of all QC categories:
 
