@@ -492,9 +492,13 @@ function setupRunAnalysis(){
   if [[ -n "$csv_file" ]]; then
     echo "Using CSV file: ${csv_file}"
     echo "See logs for each session in their respective folders: derivatives/enigma-pd-wml/sub-*/ses-*/"
+
     if [[ $n -eq 1 ]]; then
       echo "Running sequentially on 1 core"
-      while IFS=',' read -r flair_fn t1_fn subject session; do
+
+      # The -n $flair_fn check makes sure the last line of the csv is read,
+      # even if it doesn't end in a new line \n
+      while IFS=',' read -r flair_fn t1_fn subject session || [ -n "$flair_fn" ]; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           data_outfile=${data_outdir}/sub-${subject}_ses-${session}_results
@@ -504,7 +508,7 @@ function setupRunAnalysis(){
       done < "$csv_file"
     else
       echo "Running in parallel with ${n} jobs"
-      while IFS=',' read -r flair_fn t1_fn subject session; do
+      while IFS=',' read -r flair_fn t1_fn subject session  || [ -n "$flair_fn" ]; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           mkdir -p ${data_outdir}
