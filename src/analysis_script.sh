@@ -501,9 +501,9 @@ function setupRunAnalysis(){
       while IFS=',' read -r flair_fn t1_fn subject session || [ -n "$flair_fn" ]; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
-          data_outfile=${data_outdir}/sub-${subject}_ses-${session}_results
+          data_outfile=${data_outdir}/sub-${subject}_ses-${session}
           mkdir -p ${data_outdir}
-          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}.zip" > "${data_outfile}.log" 2>&1
+          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
     else
@@ -520,7 +520,7 @@ function setupRunAnalysis(){
           "${data_path}/{1}" \
           "${data_path}/{2}" \
           "${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.zip" \
-          ">" "'${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.log'" "2>&1"
+          ">" "'${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}.log'" "2>&1"
     fi
   else
     # Include subjects from file if provided
@@ -563,8 +563,8 @@ function setupRunAnalysis(){
         t1_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_T1w.nii.gz)
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
         data_outdir=${derivatives_path}/${subject}/${session}
-        data_outfile=${derivatives_path}/${subject}/${session}/${subject}_${session}_results.zip
-        runAnalysis "$flair_fn" "$t1_fn" "$data_outfile" > "${data_outdir}/${subject}_${session}.log" 2>&1
+        data_outfile=${data_outdir}/${subject}_${session}
+        runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
       done
     else
       echo "Running in parallel with ${n} jobs"
@@ -573,7 +573,7 @@ function setupRunAnalysis(){
         runAnalysis \
         "${data_path}/{1}/{2}/anat/{1}_{2}_FLAIR.nii.gz" \
         "${data_path}/{1}/{2}/anat/{1}_{2}_T1w.nii.gz" \
-        "${derivatives_path}/{1}/{2}/{1}_{2}.zip" \
+        "${derivatives_path}/{1}/{2}/{1}_{2}_results.zip" \
         ">" "'${derivatives_path}/{1}/{2}/{1}_{2}.log'" "2>&1"
     fi
   fi
