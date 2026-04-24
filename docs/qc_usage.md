@@ -14,6 +14,11 @@ outputs can be reviewed in the HTMLs.
 HTML files are produced under `derivatives/enigma-pd-wml/QC` by the pipeline, and allow interactive browsing and
 assessment of the output images for all subjects and sessions.
 
+>[!IMPORTANT]
+> If you are running the enigma-pd-wml pipeline multiple times with different datasets, make sure you have set the
+> `-h` option appropriately (see the [options section of the readme](../README.md#options) for more details). Without
+> this, HTML files from different datasets may overwrite each other's progress.
+
 This directory will contain at least one html file for `Linear` results (named similar to
 `dataset_1_ENIGMA_WML_QC_Linear_01.html`) and one for `Nonlinear` results (named similar to
 `dataset_1_ENIGMA_WML_QC_Nonlinear_01.html`). If you had many subjects / sessions in your input data, you may see

@@ -2,19 +2,19 @@
 
 Written by Sunanda Somu.
 
-This script generates PNG images for each axial slice of a single subject id
+This script generates PNG images for each axial slice of a single scan
 (n = 182; MNI space) from the pipeline outputs.
 
 Call with command-line arguments like:
-png_generator.py <subject_id> <data_dir> <output_dir>
+png_generator.py <data_dir> <output_dir>
 
 Non-linear registration:
-  - Base image:    FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
-  - WML overlay:   results2mni_nonlin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+  - Base image:    FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz
+  - WML overlay:   results2mni_nonlin_combined.nii.gz
 
 Linear registration:
-  - Base image:    FLAIR_biascorr_brain_to_MNI_lin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
-  - WML overlay:   results2mni_lin.nii.gz << CHANGE FILENAMES TO the LATEST PIPELINE OUTPUTS >>
+  - Base image:    FLAIR_biascorr_brain_to_MNI_lin.nii.gz
+  - WML overlay:   results2mni_lin_combined.nii.gz
 """
 
 import os
@@ -37,10 +37,11 @@ def process_registration_type(data_dir: str, outdir: str, reg_type: str) -> bool
     ----------
     data_dir : str
         The directory containing outputs from the enigma-pd-wml pipeline for a
-        a single subject session e.g.
-        data/derivatives/enigma_pd_wml/sub-1/ses-1/
+        a single subject/session e.g.
+        data/derivatives/enigma-pd-wml/sub-1/ses-1/
     outdir : str
-        Output directory to write generated PNGs to
+        Output directory to write generated PNGs to e.g.
+        data/derivatives/enigma-pd-wml/QC/PNGs
     reg_type : str
         Type of registration to process: 'nonlin' or 'lin'
 
