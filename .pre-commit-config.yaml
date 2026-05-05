@@ -1,11 +1,11 @@
 repos:
   - repo: https://github.com/Lucas-C/pre-commit-hooks
-    rev: v1.5.5
+    rev: v1.5.6
     hooks:
       - id: forbid-tabs
       - id: remove-tabs
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: check-case-conflict
       - id: check-docstring-first
@@ -16,7 +16,7 @@ repos:
           - --fix=lf
       - id: trailing-whitespace
   - repo: https://github.com/AleksaC/hadolint-py
-    rev: v2.12.1b3
+    rev: v2.14.0
     hooks:
       - id: hadolint
         args:
@@ -24,7 +24,7 @@ repos:
           - --ignore=DL3008
           - --ignore=DL3007
   - repo: https://github.com/crate-ci/typos
-    rev: v1.24.1
+    rev: v1.46.0
     hooks:
       - id: typos
         args:
@@ -32,13 +32,13 @@ repos:
           - --hidden
           - --locale=en
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.41.0
+    rev: v0.48.0
     hooks:
       - id: markdownlint-fix
         args:
           - --dot
   - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.10.0.1
+    rev: v0.11.0.1
     hooks:
       - id: shellcheck
         args:
