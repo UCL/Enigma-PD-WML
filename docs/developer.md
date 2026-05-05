@@ -102,7 +102,19 @@ There are two main components to the Dockerfile:
 
 All requirements for the UNets-pgs workflow come from the
 [base pgs image](https://hub.docker.com/r/cvriend/pgs/tags), including the bash script and packages like tensorflow.
+Note: this uses quite old versions of python (2.7) and other packages.
 
-FSL is installed as detailed in their [installation docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/container)
-and [configuration docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/configuration). We're using the `-V` option at
-the end of the `fslinstaller` command to [fix it to a specific FSL version](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/index?id=installing-older-versions-of-fsl).
+FSL is installed via conda, as [specified in the FSL docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/conda.html). We
+install Miniforge as our conda distribution, then install the specific `fsl` packages used by the enigma-pd-wml workflow
+as listed in the `environment.yml` file. This file also contains some additional python dependencies required by the
+`png_generator.py` script for the QC workflow.
+
+By installing FSL in this way, we reduce the overall size of the docker image - as we only install the pieces of FSL we
+need to use. Alternate installation methods (e.g.
+[via fslinstaller.py](https://fsl.fmrib.ox.ac.uk/fsl/docs/install/container.html)) require installation of the entirety
+of FSL, giving less flexibility.
+
+If you want to find out which FSL conda package versions correspond to a particular FSL release, see the
+[FSL release docs](https://fsl.fmrib.ox.ac.uk/fsl/docs/development/management/fsl_releases.html) and specifically their
+[manifest repo](https://git.fmrib.ox.ac.uk/fsl/conda/manifest/). The manifest repo has tags for all main FSL releases,
+with the `yml` files stating corresponding conda package versions.

@@ -385,6 +385,10 @@ function runAnalysis (){
    # so set them again here
    set -euo pipefail
 
+   # Make FSL and conda commands available
+  . ${FSLDIR}/etc/fslconf/fsl.sh
+  . /conda/etc/profile.d/conda.sh
+
    flair_fn=$1
    t1_fn=$2
    data_outfile=$3
@@ -415,11 +419,20 @@ function runAnalysis (){
    cp ${t1_fn}    t1vol_orig.nii.gz
    cp ${flair_fn} flairvol_orig.nii.gz
 
+   # activate conda env used for FSL
+   conda activate "${FSLENV}"
+
    fslAnat
    flairPrep
    ventDistMapping
    prepImagesForUnet
+
+   # temporarily deactivate conda env for unet step. This uses
+   # another python install from the base cvriend/pgs image
+   conda deactivate
    unetsPgs
+   conda activate "${FSLENV}"
+
    processOutputs
 
    cd ${data_outdir}/output
@@ -429,6 +442,9 @@ function runAnalysis (){
       T1_biascorr_brain_to_MNI_*lin.nii.gz \
       FLAIR_biascorr_brain_to_MNI_*lin.nii.gz
 
+   # Generate qc pngs for this subject / session
+   png_dir=${derivatives_path}/QC/PNGS
+   python /png_generator.py "$data_outdir" "$png_dir"
 }
 
 function parseArguments() {
@@ -436,8 +452,10 @@ function parseArguments() {
   subjects_file=""
   csv_file=""
   subjects=()
+  html_prefix="dataset_1"
   export overwrite=false
-  while getopts "n:of:s:l:" opt; do
+
+  while getopts "n:of:s:l:h:" opt; do
     case ${opt} in
       n)
         n=${OPTARG}
@@ -456,6 +474,9 @@ function parseArguments() {
       l)
         csv_file="${data_path}/${OPTARG}"
         ;;
+      h)
+        html_prefix=${OPTARG}
+        ;;
       ?)
         echo "Invalid option: -${OPTARG}."
         exit 1
@@ -465,34 +486,31 @@ function parseArguments() {
 }
 
 function setupRunAnalysis(){
-  # FSL Setup
-  FSLDIR=/usr/local/fsl
-  PATH=${FSLDIR}/share/fsl/bin:${PATH}
-  export FSLDIR PATH
-  . ${FSLDIR}/etc/fslconf/fsl.sh
 
   parseArguments "$@"
 
   if [[ -n "$csv_file" ]]; then
     echo "Using CSV file: ${csv_file}"
-    echo "See logs for each session in their respective output folders"
+    echo "See logs for each session in their respective folders: derivatives/enigma-pd-wml/sub-*/ses-*/"
+
     if [[ $n -eq 1 ]]; then
       echo "Running sequentially on 1 core"
-      while IFS=',' read -r flair_fn t1_fn data_outfile; do
+
+      # The -n $flair_fn check makes sure the last line of the csv is read,
+      # even if it doesn't end in a new line \n
+      while IFS=',' read -r flair_fn t1_fn subject session || [ -n "$flair_fn" ]; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
-          data_outdir=$(dirname "${data_path}/${data_outfile}")
+          data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
+          data_outfile=${data_outdir}/sub-${subject}_ses-${session}
           mkdir -p ${data_outdir}
-          echo ${flair_fn}
-          echo ${t1_fn}
-          echo ${data_outdir}
-          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_path}/${data_outfile}.zip" > "${data_path}/${data_outfile}.log" 2>&1
+          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
     else
       echo "Running in parallel with ${n} jobs"
-      while IFS=',' read -r flair_fn t1_fn data_outfile; do
+      while IFS=',' read -r flair_fn t1_fn subject session  || [ -n "$flair_fn" ]; do
         if [[ "$flair_fn" != "flair" ]]; then # Skip header row
-          data_outdir=$(dirname "${data_path}/${data_outfile}")
+          data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           mkdir -p ${data_outdir}
         fi
       done < "$csv_file"
@@ -501,8 +519,8 @@ function setupRunAnalysis(){
           runAnalysis \
           "${data_path}/{1}" \
           "${data_path}/{2}" \
-          "${data_path}/{3}.zip" \
-          ">" "'${data_path}/{3}.log'" "2>&1"
+          "${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.zip" \
+          ">" "'${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}.log'" "2>&1"
     fi
   else
     # Include subjects from file if provided
@@ -529,7 +547,7 @@ function setupRunAnalysis(){
       sessions=$(find ${data_path}/${subject}/ses-*/anat/${subject}_ses-*_T1w.nii.gz | xargs -n 1 dirname | xargs -n 1 dirname | xargs -n 1 basename)
       for session in $sessions; do
         subjects_sessions+=("${subject} ${session}")
-        mkdir -p ${data_path}/derivatives/enigma-pd-wml/${subject}/${session}
+        mkdir -p ${derivatives_path}/${subject}/${session}
       done
     done
 
@@ -544,9 +562,9 @@ function setupRunAnalysis(){
         session=$(echo $subject_session | cut -d ' ' -f 2)
         t1_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_T1w.nii.gz)
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
-        data_outdir=${data_path}/derivatives/enigma-pd-wml/${subject}/${session}
-        data_outfile=${data_path}/derivatives/enigma-pd-wml/${subject}/${session}/${subject}_${session}_results.zip
-        runAnalysis "$flair_fn" "$t1_fn" "$data_outfile" > "${data_outdir}/${subject}_${session}.log" 2>&1
+        data_outdir=${derivatives_path}/${subject}/${session}
+        data_outfile=${data_outdir}/${subject}_${session}
+        runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
       done
     else
       echo "Running in parallel with ${n} jobs"
@@ -555,15 +573,21 @@ function setupRunAnalysis(){
         runAnalysis \
         "${data_path}/{1}/{2}/anat/{1}_{2}_FLAIR.nii.gz" \
         "${data_path}/{1}/{2}/anat/{1}_{2}_T1w.nii.gz" \
-        "${data_path}/derivatives/enigma-pd-wml/{1}/{2}/{1}_{2}.zip" \
-        ">" "'${data_path}/derivatives/enigma-pd-wml/{1}/{2}/{1}_{2}.log'" "2>&1"
+        "${derivatives_path}/{1}/{2}/{1}_{2}_results.zip" \
+        ">" "'${derivatives_path}/{1}/{2}/{1}_{2}.log'" "2>&1"
     fi
   fi
 
+  # Make QC html files, that summarise all processed subjects and sessions
+  qc_dir=${derivatives_path}/QC
+  qc_guide_dir=${qc_dir}/QC_guide_examples
+  cp -r /qc_guide_images "$qc_guide_dir"
+  /MAKE_HTML.sh  "${qc_dir}/PNGS" "${qc_dir}" "${qc_guide_dir}" "${html_prefix}"
 }
 
 # assign paths for code and input data directories, as well as overall log file
 export data_path=/data
+export derivatives_path=${data_path}/derivatives/enigma-pd-wml
 echo "See overall log at enigma-pd-wml.log in your data directory"
 export overall_log=${data_path}/enigma-pd-wml.log
 

@@ -1,7 +1,6 @@
 FROM cvriend/pgs:latest
 WORKDIR /
 
-# Need fslinstaller.py
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -13,12 +12,22 @@ RUN apt-get update && \
     zip && \
     rm -rf /var/lib/apt/lists/*
 
-RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/fslinstaller.py && python fslinstaller.py -d /usr/local/fsl/ -V 6.0.7.13
+# Install miniforge
+RUN wget -O Miniforge3.sh "https://github.com/conda-forge/miniforge/releases/download/26.1.1-3/Miniforge3-26.1.1-3-Linux-x86_64.sh" && \
+    bash Miniforge3.sh -b -p "/conda" && \
+    rm Miniforge3.sh
+ENV PATH="$PATH:/conda/bin"
 
-RUN echo '\n # FSL Setup \nFSLDIR=/usr/local/fsl \nPATH=${FSLDIR}/share/fsl/bin:${PATH} \nexport FSLDIR PATH \n. ${FSLDIR}/etc/fslconf/fsl.sh' >> /root/.bashrc
+# Install python dependencies including FSL
+COPY environment.yml .
+RUN conda env create --file environment.yml
 
-COPY analysis_script.sh .
+# Set FSL environment variables
+ENV FSLENV=enigma_pd_wml_env
+ENV FSLDIR=/conda/envs/${FSLENV}
+ENV PATH=${FSLDIR}/share/fsl/bin:${PATH}
 
+COPY src .
 RUN mkdir /data
 
 RUN chmod +x analysis_script.sh

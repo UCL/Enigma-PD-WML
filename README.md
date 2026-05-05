@@ -9,7 +9,6 @@ the same scanning session. The analysis steps (including pre- and post- processi
 
 - [FSL (FMRIB Software Library)](https://fsl.fmrib.ox.ac.uk/fsl/docs/) : a library of analysis tools for FMRI, MRI and
   diffusion brain imaging data.
-  We are using version 6.0.7.13 of FSL.
 
 - [UNet-pgs](https://www.sciencedirect.com/science/article/pii/S1053811921004171?via%3Dihub) : A segmentation pipeline
   for white matter hyperintensities (WMHs) using U-Net.
@@ -174,6 +173,12 @@ Note, this requires either:
 - `-l` : path to CSV file containing list of subjects to include in the analysis. This should only be used if you would
   like to [run the pipeline on non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
 
+- `-h`: The prefix to use for HTML files generated as part of the [QC workflow](./docs/qc_usage.md).
+
+  E.g. a prefix of 'dataset_a' would result in html files named like: dataset_a_ENIGMA_WML_QC_Linear_01.html. If you are
+  running the enigma-pd-wml pipeline multiple times with different datasets, you must set this prefix to a different
+  value each time - otherwise, they may overwrite each other's QC progress.
+
 > [!NOTE]
 > If `-f`, `-s`, and `-l` are omitted, the pipeline will be run on all subjects and assume data is in BIDS format.
 <!-- markdownlint-disable MD028/no-blanks-blockquote -->
@@ -191,6 +196,13 @@ data
 ├── enigma-pd-wml.log
 ├── derivatives
 │   └── enigma-pd-wml
+│       │
+│       ├── QC
+│       │   ├── PNGS/
+│       │   ├── QC_guide_examples/
+│       │   ├── dataset_1_ENIGMA_WML_QC_Linear_01.html
+│       │   └── dataset_1_ENIGMA_WML_QC_Nonlinear_01.html
+│       │
 │       └── sub-1
 │           ├── ses-1
 │           │   ├── input/
@@ -266,16 +278,18 @@ and `derivatives/enigma-pd-wml/<subject>/<session>/output` folders.
 
 Pipeline logs can be found at:
 
-- `enigma-pd-wml.log`: contains minimal information about the initial pipeline setup.
+- `enigma-pd-wml.log`: contains minimal information about the initial pipeline setup, as well as the QC html
+  generation step.
 
 - `derivatives/enigma-pd-wml/<subject>/<session>/<subject>_<session>.log`: one log per session; contains information about
   the various processing steps.
 
 ## Quality control
 
-See notes on [quality control](docs/qc.md) for the WML pipeline.
+The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that allow interactive browsing and assessment
+of the output images.
 
-New interactive QC feature soon to be added.
+See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature.
 
 ## Periventricular and deep WML clustering
 
