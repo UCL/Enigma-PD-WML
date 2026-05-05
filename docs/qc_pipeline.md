@@ -9,9 +9,9 @@ The pipeline operates in two sequential stages: first generating PNG images from
 images into the HTML. Each stage is executed by a dedicated script, as follows:
 
 | Script | Function | Output |
-| ------------- |-------------------| -----------------|
+| ------------- | ------------------- | ----------------- |
 | `png_generator.py` | Converts 3D NIfTI volumes into 2D axial slice images (PNGs) | 182 axial slices per registration type |
-| `MAKE_HTML.sh` | Assembles PNG images into HTML viewer  | HTML files with QC controls |
+| `MAKE_HTML.sh` | Assembles PNG images into HTML viewer | HTML files with QC controls |
 
 ## Input requirements
 
@@ -19,9 +19,9 @@ The QC framework expects outputs from the upstream ENIGMA-PD-WML processing pipe
 NIfTIs are required, one pair for linear registration and another for nonlinear registration:
 
 | Registration | Base Image (FLAIR) | WML Overlay Mask |
-| ------------- |-------------------| -----------------|
-| Nonlinear | FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz  | results2mni_nonlin_combined.nii.gz |
-| Linear | FLAIR_biascorr_brain_to_MNI_lin.nii.gz  | results2mni_lin_combined.nii.gz |
+| ------------- | ------------------- | ----------------- |
+| Nonlinear | FLAIR_biascorr_brain_to_MNI_nonlin.nii.gz | results2mni_nonlin_combined.nii.gz |
+| Linear | FLAIR_biascorr_brain_to_MNI_lin.nii.gz | results2mni_lin_combined.nii.gz |
 
 ## Output directory structure
 
@@ -44,9 +44,9 @@ all 182 axial slices and generating paired base/overlay images for each slice.
 ### Arguments
 
 | Parameter | Description | Example |
-| ---------- |------------|---------|
-| data_dir  | Path to directory containing pipeline outputs for a single subject/session | `/data/derivatives/enigma-pd-wml/sub-1/ses-1/` |
-| output_png_dir  | Destination directory for generated PNG images | `/data/derivatives/enigma-pd-wml/QC/PNGs` |
+| ---------- | ------------ | --------- |
+| data_dir | Path to directory containing pipeline outputs for a single subject/session | `/data/derivatives/enigma-pd-wml/sub-1/ses-1/` |
+| output_png_dir | Destination directory for generated PNG images | `/data/derivatives/enigma-pd-wml/QC/PNGs` |
 
 ### Execution
 
@@ -58,10 +58,10 @@ slices as PNG images. The following subsections explain the processing steps.
 The following Python libraries are required:
 
 | Library | Function |
-| ---------|------------|
-| nibabel  | NIfTI file I/O Handling |
-| numpy  | Array operations and masking |
-| matplotlib  | Image generation (uses Agg backend) |
+| --------- | ------------ |
+| nibabel | NIfTI file I/O Handling |
+| numpy | Array operations and masking |
+| matplotlib | Image generation (uses Agg backend) |
 
 ### Input file discovery and validation
 
@@ -100,14 +100,14 @@ This produces two PNG files per slice: `{slice_number}_base.png` and `{slice_num
 All generated PNG images have the following specifications:
 
 | Specification | Value |
-| ---------|------------|
-| Image dimensions  | 600 x 600 pixels |
-| Resolution  | 100 DPI |
-| Format  | PNG (lossless compression) |
-| Base Image Colormap  | Grayscale |
-| WML Overlay Color  | Solid Blue (#0000FF) |
-| Overlay transparency  | 90% opaque |
-| Naming convention  | {slice_number}_base.png {slice_number}_overlay.png |
+| --------- | ------------ |
+| Image dimensions | 600 x 600 pixels |
+| Resolution | 100 DPI |
+| Format | PNG (lossless compression) |
+| Base Image Colormap | Grayscale |
+| WML Overlay Color | Solid Blue (#0000FF) |
+| Overlay transparency | 90% opaque |
+| Naming convention | {slice_number}_base.png {slice_number}_overlay.png |
 
 ### Output file and memory management
 
@@ -115,11 +115,11 @@ Each subject generates a total of 728 PNG files across both registration types, 
 storage requirement for all PNGs (linear + nonlinear) to be approximately 15-20 MB per subject.
 
 | File type | Count | Calculation |
-| ---------|------------|----------|
-| Slices per volume  | 182 | MNI space standard |
-| Images per slice  | 2 | base + overlay |
-| Registration types  | 2 | linear + nonlinear |
-| Total PNGs per scan  | 728 | 182 x 2 x 2 |
+| --------- | ------------ | ---------- |
+| Slices per volume | 182 | MNI space standard |
+| Images per slice | 2 | base + overlay |
+| Registration types | 2 | linear + nonlinear |
+| Total PNGs per scan | 728 | 182 x 2 x 2 |
 
 ### Log output
 
@@ -193,11 +193,11 @@ for slice navigation, overlay toggling, and standardized QC rating.
 ### MAKE_HTML arguments
 
 | Parameter | Description | Example |
-| ---------- |------------|---------|
-| png_dir  | Directory containing generated PNG images | `/data/derivatives/enigma-pd-wml/QC/PNGs` |
-| output_dir  | Destination for HTML output files | `/data/derivatives/enigma-pd-wml/QC` |
-| qc_guide_dir  | Directory with QC reference example images | `/data/derivatives/enigma-pd-wml/QC/QC_guide_examples` |
-| dataset_name / html_prefix  | Prefix for output HTML filenames | `dataset_1` |
+| ---------- | ------------ | --------- |
+| png_dir | Directory containing generated PNG images | `/data/derivatives/enigma-pd-wml/QC/PNGs` |
+| output_dir | Destination for HTML output files | `/data/derivatives/enigma-pd-wml/QC` |
+| qc_guide_dir | Directory with QC reference example images | `/data/derivatives/enigma-pd-wml/QC/QC_guide_examples` |
+| dataset_name / html_prefix | Prefix for output HTML filenames | `dataset_1` |
 
 ### MAKE_HTML execution
 
