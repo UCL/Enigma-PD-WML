@@ -287,14 +287,14 @@ Pipeline logs can be found at:
 As the pipeline is fully automated, an interactive QC procedure has been developed to check the pipeline has performed
 correctly and the outputs are of adequate quality for further analyses.
 
-The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that can be opened in a browser 
+The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that can be opened in a browser
 interface to allow interactive assessment of the output images.
 
 > [!NOTE]
 > Please assess quality using the segmentations non-linearly warped to MNI space first. The segmentations linearly
 > registered to MNI space are also provided for further checking if any issues are spotted.
 
-See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature. 
+See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature.
 [Technical details](docs/qc_pipeline.md) are also provided.
 
 ## Periventricular and deep WML clustering
