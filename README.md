@@ -287,8 +287,8 @@ Pipeline logs can be found at:
 As the pipeline is fully automated, an interactive QC procedure has been developed to check the pipeline has performed
 correctly and the outputs are of adequate quality for further analyses.
 
-The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that can be opened in an interactive browser 
-interface to allow assessment of the output images.
+The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that can be opened in a browser 
+interface to allow interactive assessment of the output images.
 
 > [!NOTE]
 > Please assess quality using the segmentations non-linearly warped to MNI space first. The segmentations linearly
@@ -307,7 +307,7 @@ The [Enigma-PD-WML-Clustering pipeline](https://github.com/reneemapa1/Enigma-PD-
 use output images from the ENIGMA-PD-WML pipeline to classify WML in subjects with a high lesion load (> 10 cm³) as
 periventricular, deep and confluent.
 
-This can be run as an additional module following completion of the ENIGMA-PD-WML pipeline and results in three binary
+This can be run as an optional module following completion of the ENIGMA-PD-WML pipeline and results in three binary
 lesion maps:
 
 - `periventricular_lesions.nii.gz`: WML entirely within 10 mm of the ventricles.
