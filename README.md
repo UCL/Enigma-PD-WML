@@ -1,10 +1,10 @@
 # Enigma-PD-WML
 
-Segment White Matter Lesions (WML) in T1-weighted and FLAIR MRI images using FSL and U-Net
+Segment White Matter Lesions (WML) in T1-weighted and FLAIR MRI images using FSL and UNet-pgs
 
 ## What does the pipeline do?
 
-This pipeline allows white matter lesions (WMLs) to be segmented from a subject's T1-weighted and FLAIR MRI images from
+This pipeline allows white matter lesions (WML) to be segmented from a subject's T1-weighted and FLAIR MRI images from
 the same scanning session. The analysis steps (including pre- and post- processing) make use of the following tools:
 
 - [FSL (FMRIB Software Library)](https://fsl.fmrib.ox.ac.uk/fsl/docs/) : a library of analysis tools for FMRI, MRI and
@@ -36,8 +36,6 @@ flowchart TD
 ```
 
 ## 1. Install prerequisites
-
-If your MRI data isn't in BIDS format, it is recommended to install [Nipoppy](https://nipoppy.readthedocs.io).
 
 If you want to run the container via Docker, install [Docker Desktop](https://docs.docker.com/get-started/get-docker/).
 They have installation instructions for [Mac](https://docs.docker.com/desktop/install/mac-install/),
@@ -286,10 +284,18 @@ Pipeline logs can be found at:
 
 ## Quality control
 
-The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that allow interactive browsing and assessment
-of the output images.
+As the pipeline is fully automated, an interactive QC procedure has been developed to check the pipeline has performed
+correctly and the outputs are of adequate quality for further analyses.
 
-See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature.
+The pipeline produces QC files under `derivatives/enigma-pd-wml/QC` that can be opened in an interactive browser 
+interface to allow assessment of the output images.
+
+> [!NOTE]
+> Please assess quality using the segmentations non-linearly warped to MNI space first. The segmentations linearly
+> registered to MNI space are also provided for further checking if any issues are spotted.
+
+See the [quality control docs](docs/qc_usage.md) for more information on how to use this feature. 
+[Technical details](docs/qc_pipeline.md) are also provided.
 
 ## Periventricular and deep WML clustering
 
@@ -377,7 +383,7 @@ computing facilities.
   BIANCA (Brain Intensity AbNormality Classification Algorithm): a new tool for
   automated segmentation of white matter hyperintensities. Neuroimage. 141:191-205
 
-`UNets`:
+`UNet-pgs`:
 
 - Park, G., Hong, J., Duffy, B. A., Lee, J. M., & Kim, H. (2021). White matter hyperintensities segmentation
   using the ensemble U-Net with multi-scale highlighting foregrounds.Neuroimage, 237, 118140.
