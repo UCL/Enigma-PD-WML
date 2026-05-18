@@ -30,6 +30,6 @@ ENV PATH=${FSLDIR}/share/fsl/bin:${PATH}
 COPY src .
 RUN mkdir /data
 
-RUN chmod +x analysis_script.sh
+RUN chmod +x analysis_script.sh MAKE_HTML.sh
 
 ENTRYPOINT ["/analysis_script.sh"]
