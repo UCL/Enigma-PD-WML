@@ -43,6 +43,34 @@ function fslAnat(){
    fsl_anat -o t1-mni -i ./t1vol_orig.nii.gz --nosubcortseg --clobber
 
    echo "fsl_anat done"
+
+   # extract ICV values from T1_vols.txt and add one row to csv
+    t1vols_file="${anat_dir}/T1_vols.txt"
+    if [[ ! -f "$t1vols_file" ]]; then
+        t1vols_file="${anat_dir}/T1_vol.txt"
+    fi # look for a file named T1_vols or T1_vol
+
+    csv_file="${derivatives_path}/t1_volumes.csv"
+
+    if [[ -f "$t1vols_file" ]]; then
+        mapfile -t vals < <(
+            awk -F'=' '
+                NF > 1 {
+                    gsub(/^[[:space:]]+|[[:space:]]+$/, "", $2)
+                    print $2
+                }
+            ' "$t1vols_file"
+        )
+
+        # create a header if the csv does not exist yet
+        if [[ ! -f "$csv_file" ]]; then
+            echo "subject_id,session_id,scaling_factor_t1_to_mni,brain_volume_native_mm3,brain_volume_mni_mm3" > "$csv_file"
+        fi
+
+        echo "${subject_id},${session_id},${vals[0]},${vals[1]},${vals[2]}" >> "$csv_file"
+    else
+        echo "WARNING: ${t1vols_file} not found" >&2
+    fi
    echo
 }
 
@@ -392,7 +420,10 @@ function runAnalysis (){
    flair_fn=$1
    t1_fn=$2
    data_outfile=$3
+   subject_id=$4
+   session_id=$5
    data_outdir=$(dirname "${data_outfile}")
+   export subject_id session_id
    export data_outdir
 
    echo "Processing session with:"
@@ -503,6 +534,8 @@ function setupRunAnalysis(){
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           data_outfile=${data_outdir}/sub-${subject}_ses-${session}
           mkdir -p ${data_outdir}
+          export subject_id="$subject" # export subject variable for ICV csv
+          export session_id="$session" # export session variable for ICV csv
           runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
@@ -520,6 +553,7 @@ function setupRunAnalysis(){
           "${data_path}/{1}" \
           "${data_path}/{2}" \
           "${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}_results.zip" \
+          "{3}" "{4}" \
           ">" "'${derivatives_path}/sub-{3}/ses-{4}/sub-{3}_ses-{4}.log'" "2>&1"
     fi
   else
@@ -564,6 +598,8 @@ function setupRunAnalysis(){
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
         data_outdir=${derivatives_path}/${subject}/${session}
         data_outfile=${data_outdir}/${subject}_${session}
+        export subject_id="$subject" # export subject variable for ICV csv
+        export session_id="$session" # export session variable for ICV csv
         runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
       done
     else
@@ -574,6 +610,7 @@ function setupRunAnalysis(){
         "${data_path}/{1}/{2}/anat/{1}_{2}_FLAIR.nii.gz" \
         "${data_path}/{1}/{2}/anat/{1}_{2}_T1w.nii.gz" \
         "${derivatives_path}/{1}/{2}/{1}_{2}_results.zip" \
+        "{1}" "{2}" \
         ">" "'${derivatives_path}/{1}/{2}/{1}_{2}.log'" "2>&1"
     fi
   fi
