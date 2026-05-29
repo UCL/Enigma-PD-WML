@@ -369,8 +369,8 @@ FSL is released under a 'free for non-commercial purposes license', and
 
 ### Creators
 
-Drs Sarah Al-Bachari, Hamied Haroon, Robin Long, Kimberly Meechan and Paul Smith. With specialist input from Professor
-Neda Jahanshad, Dr Conor Owens-Walton and Miss Sunanda Somu and Dr Chris Vriend.
+Dr Sarah Al-Bachari, Miss Shauna Angell, Dr Hamied Haroon, Dr Robin Long, Dr Kimberly Meechan and Dr Paul Smith. With specialist input from Professor
+Neda Jahanshad, Dr Conor Owens-Walton, Miss Sunanda Somu and Dr Chris Vriend.
 
 ### Acknowledgements and Thanks
 
