@@ -201,7 +201,7 @@ data
 │       │   ├── dataset_1_ENIGMA_WML_QC_Linear_01.html
 │       │   └── dataset_1_ENIGMA_WML_QC_Nonlinear_01.html
 │       │
-│       └── sub-1
+│       ├── sub-1
 │       │   ├── ses-1
 │       │   │   ├── input/
 │       │   │   ├── output/
