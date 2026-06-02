@@ -95,4 +95,6 @@ This includes steps to:
 The pipeline will generate multiple `.zip` files - one per session, stored within the corresponding session
 sub-folder, e.g. `derivatives/enigma-pd-wml/sub-1/ses-1/sub-1_ses-1_results.zip`.
 
+A csv file `data/derivatives/enigma-pd-wml/t1_volumes.csv` which contains the estimated brain volume (in mm³) in native T1-weighted space and MNI space, as well as the factor used to scale the brain from T1-weighted to MNI space for each subject and session will also be generated.
+
 **Please send these zip files to the ENIGMA-PD Vasc team.**

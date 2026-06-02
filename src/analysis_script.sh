@@ -534,9 +534,10 @@ function setupRunAnalysis(){
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           data_outfile=${data_outdir}/sub-${subject}_ses-${session}
           mkdir -p ${data_outdir}
-          export subject_id="$subject" # export subject variable for ICV csv
-          export session_id="$session" # export session variable for ICV csv
-          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
+          # export subject_id="$subject" # export subject variable for ICV csv
+          # export session_id="$session" # export session variable for ICV csv
+          # runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
+          runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" "${subject}" "${session}" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
     else
@@ -598,9 +599,10 @@ function setupRunAnalysis(){
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
         data_outdir=${derivatives_path}/${subject}/${session}
         data_outfile=${data_outdir}/${subject}_${session}
-        export subject_id="$subject" # export subject variable for ICV csv
-        export session_id="$session" # export session variable for ICV csv
-        runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
+        # export subject_id="$subject" # export subject variable for ICV csv
+        # export session_id="$session" # export session variable for ICV csv
+        # runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
+        runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" "${subject}" "${session}" > "${data_outfile}.log" 2>&1
       done
     else
       echo "Running in parallel with ${n} jobs"

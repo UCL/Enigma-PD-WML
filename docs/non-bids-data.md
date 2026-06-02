@@ -101,12 +101,15 @@ data
 │          │       ├── output/
 │          │       ├── sub-1_ses-2.log
 │          │       └── sub-1_ses-2_results.zip
-│          └── sub-2
-│               └──ses-1
-│                  ├── input/
-│                  ├── output/
-│                  ├── sub-2_ses-1.log
-│                  └── sub-2_ses-1_results.zip
+│          │
+│          ├── sub-2
+│          │    └──ses-1
+│          │       ├── input/
+│          │       ├── output/
+│          │       ├── sub-2_ses-1.log
+│          │       └── sub-2_ses-1_results.zip
+│          │
+│          └── t1_volumes.csv
 ```
 
 The [session-level zip files](../README.md#session-level-zip-files) are stored in
