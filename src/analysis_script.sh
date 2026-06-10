@@ -62,12 +62,19 @@ function fslAnat(){
             ' "$t1vols_file"
         )
 
-        # create a header if the csv does not exist yet
-        if [[ ! -f "$csv_file" ]]; then
-            echo "subject_id,session_id,scaling_factor_t1_to_mni,brain_volume_native_mm3,brain_volume_mni_mm3" > "$csv_file"
-        fi
+        csv_file="${derivatives_path}/t1_volumes.csv"
+        lock_file="${csv_file}.lock"
 
-        echo "${subject_id},${session_id},${vals[0]},${vals[1]},${vals[2]}" >> "$csv_file"
+        (
+            flock -x 200
+
+            if [[ ! -s "$csv_file" ]]; then
+                echo "subject_id,session_id,scaling_factor_t1_to_mni,brain_volume_native_mm3,brain_volume_mni_mm3" > "$csv_file"
+            fi
+
+            echo "${subject_id},${session_id},${vals[0]},${vals[1]},${vals[2]}" >> "$csv_file"
+
+        ) 200>"$lock_file"
     else
         echo "WARNING: ${t1vols_file} not found" >&2
     fi
@@ -534,9 +541,6 @@ function setupRunAnalysis(){
           data_outdir=${derivatives_path}/sub-${subject}/ses-${session}
           data_outfile=${data_outdir}/sub-${subject}_ses-${session}
           mkdir -p ${data_outdir}
-          # export subject_id="$subject"
-          # export session_id="$session"
-          # runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
           runAnalysis "${data_path}/${flair_fn}" "${data_path}/${t1_fn}" "${data_outfile}_results.zip" "${subject}" "${session}" > "${data_outfile}.log" 2>&1
         fi
       done < "$csv_file"
@@ -599,9 +603,6 @@ function setupRunAnalysis(){
         flair_fn=$(find ${data_path}/${subject}/${session}/anat/${subject}_${session}_FLAIR.nii.gz)
         data_outdir=${derivatives_path}/${subject}/${session}
         data_outfile=${data_outdir}/${subject}_${session}
-        # export subject_id="$subject"
-        # export session_id="$session"
-        # runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" > "${data_outfile}.log" 2>&1
         runAnalysis "$flair_fn" "$t1_fn" "${data_outfile}_results.zip" "${subject}" "${session}" > "${data_outfile}.log" 2>&1
       done
     else
