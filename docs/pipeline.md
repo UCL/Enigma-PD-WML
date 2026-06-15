@@ -11,8 +11,8 @@ flowchart TD
     fsl_anat("`Run fsl_anat on T1 image`")
     flair_prep("`Pre-process FLAIR image and align it to T1 image`")
     vent_dist("`Create periventricular vs deep white matter masks for T1 and FLAIR images`")
-    unet_prep("`Crop T1/FLAIR images, ready for UNets-pgs`")
-    unet("`Run UNets-pgs to segment WMLs`")
+    unet_prep("`Crop T1/FLAIR images, ready for UNet-pgs`")
+    unet("`Run UNet-pgs to segment WMLs`")
     process_output("`Split WML segmentations into periventricular vs deep white matter + align to standard MNI template`")
     fsl_anat --> flair_prep
     flair_prep --> vent_dist
@@ -21,7 +21,7 @@ flowchart TD
     unet --> process_output
 ```
 
-After processing, the pipeline also generates some QC output. [See the QC docs](./qc_pipeline.md) for more information
+After processing, the pipeline also generates an interactive QC output. [See the QC docs](./qc_pipeline.md) for more information
 on those steps.
 
 ## fsl_anat
@@ -61,30 +61,33 @@ This includes steps to:
 
 - Use FSL's `distancemap` tool and `fslmaths` to produce the final periventricular vs deep white matter masks
 
-## Prepare images for UNets-pgs
+## Prepare images for UNet-pgs
 
-Next, various FSL tools are used to prepare the images for UNets-pgs. The main purpose of this step is to crop T1 /
+Next, various FSL tools are used to prepare the images for UNet-pgs. The main purpose of this step is to crop T1 /
 FLAIR images with `fslroi` (if they're larger than 500 pixels in the x or y dimension).
 
-## UNets-pgs
+## UNet-pgs
 
 Run the UNet-pgs segmentation workflow. This uses the `WMHs_segmentation_PGS.sh` script from
 [the pgs docker image](https://hub.docker.com/r/cvriend/pgs/tags). This will produce a WML binary segmentation mask
 under the `derivatives/enigma-pd-wml/<subject>/<session>/output/results.nii.gz` of each session.
 
-## Process outputs of UNets-pgs
+## Process outputs of UNet-pgs
 
-Next, the output from UNets-pgs is processed with various fsl tools. This splits the WML segmentation from UNets-pgs
+Next, the output from UNet-pgs is processed with various fsl tools. This splits the WML segmentation from UNet-pgs
 into periventricular vs deep white matter, as well as linearly/non-linearly aligning it to the standard MNI T1 1 mm
 template.
 
 This includes steps to:
 
-- Align WML segmentations from UNets-pgs with the cropped T1 image, the full size T1 image and the full size FLAIR image
-  (via `flirt`)
+- Align WML segmentations from UNet-pgs with the cropped T1 image, the full size T1 image and the full size FLAIR image via `flirt`
 
 - Use masks from the [ventricular distance mapping step](#ventricular-distance-mapping) and `fslmaths` to divide WML
   segmentations into periventricular and deep white matter
+
+- Combine the periventricular and deep white matter masks using `fslmaths` to restrict the segmentations to the white matter, excluding grey matter, CSF and areas outside of the brain
+
+- Produce WML segmentations using the [John Hopkins ICBM-DTI-81 white-matter labels](https://web.mit.edu/fsl_v5.0.10/fsl/doc/wiki/Atlases.html) and [Oxford-GSK-Imanova striatal probabilistic connectivity](https://web.mit.edu/fsl_v5.0.10/fsl/doc/wiki/Atlases.html) atlases
 
 - Linearly transform/align all segmentations with MNI T1 via `flirt`
 
