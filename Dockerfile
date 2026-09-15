@@ -1,6 +1,9 @@
 FROM cvriend/pgs:latest
 WORKDIR /
 
+LABEL org.opencontainers.image.licenses="BSD-3-Clause"
+LABEL org.opencontainers.image.description="Enigma-PD-WML pipeline. Requires FSL (non-commercial use only unless licensed via Oxford University Innovation) - see NOTICE.md."
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
