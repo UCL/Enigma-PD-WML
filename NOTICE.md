@@ -18,7 +18,7 @@ licence terms.
 
 ## Other dependencies
 
-- This pipeline build on the [UNet-pgs Docker Image](https://hub.docker.com/r/wmhchallenge/pgs) created
+- This pipeline builds on the [UNet-pgs Docker Image](https://hub.docker.com/r/wmhchallenge/pgs) created
   to accompany the paper ['White matter hyperintensities segmentation using the ensemble U-Net with multi-scale highlighting foregrounds'](https://www.sciencedirect.com/science/article/pii/S1053811921004171). There is no licensing information provided for this image. Please contact the authors of the paper for any questions regarding its use.
 - [Nipoppy](https://github.com/nipoppy/nipoppy) is not a strict dependency but is recommended for
   converting your dataset into BIDS format. `Nipoppy` is released under the
