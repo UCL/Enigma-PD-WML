@@ -357,13 +357,15 @@ You may want to try:
 Some brief notes on the development setup for this repository are provided in a
 [separate developer docs file](/docs/developer.md).
 
-## License
+## Licence
 
-This software is licensed under BSD Clause 3. See the [LICENSE](LICENSE) file for details.
+This software is licensed under the BSD 3-Clause License. See the [LICENSE](LICENSE) file for
+details.
 
-FSL is released under a 'free for non-commercial purposes license', and
-  is bundled with third-party libraries 'released under a range of different open source licenses'.
-  See the [FSL license](https://fsl.fmrib.ox.ac.uk/fsl/docs/#/license) for full details.
+This pipeline requires FSL to run, which is free for non-commercial / academic research use only.
+Commercial use of this pipeline requires a separate FSL licence from Oxford University Innovation
+(`fsl@innovation.ox.ac.uk`). See [NOTICE.md](NOTICE.md) for full third-party licensing details and the
+[FSL licence page](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for FSL's terms.
 
 ## Contributors
 
