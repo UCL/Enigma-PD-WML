@@ -359,12 +359,13 @@ Some brief notes on the development setup for this repository are provided in a
 
 ## Licence
 
-This software is licensed under the BSD 3-Clause License. See the [LICENSE](LICENSE) file for
+This software is licensed under the BSD 3-Clause Licence. See the [LICENSE](LICENSE) file for
 details.
 
-This pipeline requires FSL to run, which is free for non-commercial / academic research use only.
-Commercial use of this pipeline requires a separate FSL licence from Oxford University Innovation
-(`fsl@innovation.ox.ac.uk`). See [NOTICE.md](NOTICE.md) for full third-party licensing details and the
+This pipeline requires FSL and UNet-pgs to run, both of which are restricted to non-commercial /
+academic research use. Commercial use of this pipeline requires a separate FSL licence from Oxford
+University Innovation (`fsl@innovation.ox.ac.uk`) and separate permission from the UNet-pgs authors.
+See [NOTICE.md](NOTICE.md) for full third-party licensing details and the
 [FSL licence page](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for FSL's terms.
 
 ## Contributors

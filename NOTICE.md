@@ -22,4 +22,8 @@ This pipeline builds on the [UNet-pgs Docker Image](https://hub.docker.com/r/wmh
 to accompany the paper ['White matter hyperintensities segmentation using the ensemble U-Net with
 multi-scale highlighting foregrounds'](https://www.sciencedirect.com/science/article/pii/S1053811921004171).
 
-There is no licensing information provided for this image. Please contact the authors of the paper for any questions regarding its use.
+UNet-pgs is not distributed under a published licence. Hosung Kim, an author of UNet-pgs, has granted
+permission for UNet-pgs to be used, incorporated and redistributed as part of this pipeline for
+academic and other non-commercial research purposes, free of charge. Any commercial use or
+redistribution requires separate permission from the UNet-pgs authors, and must also comply with the
+licensing terms of bundled third-party software, including FSL.
