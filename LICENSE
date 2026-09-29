@@ -1,3 +1,23 @@
+Enigma-PD-WML Licence
+=====================
+
+Summary
+-------
+
+The source code in this repository is licensed under the BSD 3-Clause License
+(Part 1 below).
+
+However, this pipeline cannot run without two third-party components, FSL and
+UNet-pgs, which are NOT covered by the BSD 3-Clause License and are restricted
+to non-commercial and academic research use (Part 2 below). The pipeline as a
+whole, including the Docker image built from this repository, may therefore
+only be used for non-commercial purposes, unless separate permission is
+obtained for each of these components.
+
+
+Part 1: Enigma-PD-WML source code
+---------------------------------
+
 BSD 3-Clause License
 
 Copyright (c) 2024, UCL Centre for Advanced Research Computing
@@ -26,3 +46,39 @@ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Part 2: Third-party components
+------------------------------
+
+FSL (FMRIB Software Library)
+
+  This pipeline requires FSL (https://fsl.fmrib.ox.ac.uk/fsl/docs/),
+  Copyright (C) University of Oxford, to run. Most of FSL is available free of
+  charge for non-commercial and academic research use only.
+
+  Commercial use of FSL requires a separate paid licence from Oxford
+  University Innovation (OUI) (contact fsl@innovation.ox.ac.uk). See the FSL
+  licence page (https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for the full
+  terms and the definition of commercial use.
+
+  Because this pipeline cannot run without FSL, the pipeline as a whole is
+  subject to this restriction.
+
+UNet-pgs Docker Image
+
+  This pipeline builds on the UNet-pgs Docker Image
+  (https://hub.docker.com/r/wmhchallenge/pgs) created to accompany the paper
+  'White matter hyperintensities segmentation using the ensemble U-Net with
+  multi-scale highlighting foregrounds'
+  (https://www.sciencedirect.com/science/article/pii/S1053811921004171).
+
+  UNet-pgs is not distributed under a published licence. Hosung Kim, an author
+  of UNet-pgs, has granted permission for UNet-pgs to be used, incorporated and
+  redistributed as part of this pipeline for academic and other non-commercial
+  research purposes, free of charge. Any commercial use or redistribution
+  requires separate permission from the UNet-pgs authors, and must also comply
+  with the licensing terms of bundled third-party software, including FSL.
+
+Users and redistributors are responsible for their own compliance with these
+third-party licence terms.

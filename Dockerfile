@@ -2,7 +2,7 @@ FROM cvriend/pgs:latest
 WORKDIR /
 
 LABEL org.opencontainers.image.licenses="BSD-3-Clause"
-LABEL org.opencontainers.image.description="Enigma-PD-WML pipeline. Includes FSL and UNet-pgs, which are restricted to non-commercial use - see NOTICE.md."
+LABEL org.opencontainers.image.description="Enigma-PD-WML pipeline. Includes FSL and UNet-pgs, which are restricted to non-commercial use - see LICENSE."
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && \
