@@ -4,7 +4,7 @@ Segment White Matter Lesions (WML) in T1-weighted and FLAIR MRI images using FSL
 
 > [!IMPORTANT]
 > The pipeline code is BSD 3-Clause licensed, but the pipeline depends on FSL and UNet-pgs, which
-> are restricted to non-commercial use. See [NOTICE.md](NOTICE.md) for details.
+> are restricted to non-commercial use. See [LICENSE](LICENSE) for details.
 
 ## What does the pipeline do?
 
@@ -363,14 +363,13 @@ Some brief notes on the development setup for this repository are provided in a
 
 ## Licence
 
-This software is licensed under the BSD 3-Clause Licence. See the [LICENSE](LICENSE) file for
-details.
+The source code in this repository is licensed under the BSD 3-Clause Licence. However, this pipeline
+requires FSL and UNet-pgs to run, both of which are restricted to non-commercial / academic research
+use. Commercial use of this pipeline requires a separate FSL licence from Oxford University Innovation
+(`fsl@innovation.ox.ac.uk`) and separate permission from the UNet-pgs authors.
 
-This pipeline requires FSL and UNet-pgs to run, both of which are restricted to non-commercial /
-academic research use. Commercial use of this pipeline requires a separate FSL licence from Oxford
-University Innovation (`fsl@innovation.ox.ac.uk`) and separate permission from the UNet-pgs authors.
-See [NOTICE.md](NOTICE.md) for full third-party licensing details and the
-[FSL licence page](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for FSL's terms.
+See the [LICENSE](LICENSE) file for the full BSD 3-Clause text and third-party licensing details, and
+the [FSL licence page](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for FSL's terms.
 
 ## Contributors
 
