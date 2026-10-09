@@ -24,7 +24,7 @@ repos:
           - --ignore=DL3008
           - --ignore=DL3007
   - repo: https://github.com/crate-ci/typos
-    rev: v1.46.0
+    rev: v1.48.0
     hooks:
       - id: typos
         args:
@@ -32,7 +32,7 @@ repos:
           - --hidden
           - --locale=en
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.48.0
+    rev: v0.49.0
     hooks:
       - id: markdownlint-fix
         args:
