@@ -1413,7 +1413,7 @@ dataset_name=$4
 
 slice_skip=2  # Landing page slice skip is fixed at 2
 starting_slice=65 # Landing page slice
-subjects_per_html=200 # Each html displays a maximum of 200 subjects/scans
+subjects_per_html=50 # Each html displays a maximum of 50 subjects/scans
 
 mkdir -p "$output_dir"
 
