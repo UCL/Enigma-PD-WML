@@ -16,7 +16,7 @@ assessment of the output images for all subjects and sessions.
 
 >[!IMPORTANT]
 > If you are running the enigma-pd-wml pipeline multiple times with different datasets, make sure you have set the
-> `-h` option appropriately (see the [options section of the readme](../README.md#options) for more details). Without
+> `-q` option appropriately (see the [options section of the readme](../README.md#options) for more details). Without
 > this, HTML files from different datasets may overwrite each other's progress.
 
 This directory will contain at least one html file for `Linear` results (named similar to
