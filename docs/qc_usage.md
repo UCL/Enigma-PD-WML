@@ -22,7 +22,7 @@ assessment of the output images for all subjects and sessions.
 This directory will contain at least one html file for `Linear` results (named similar to
 `dataset_1_ENIGMA_WML_QC_Linear_01.html`) and one for `Nonlinear` results (named similar to
 `dataset_1_ENIGMA_WML_QC_Nonlinear_01.html`). If you had many subjects / sessions in your input data, you may see
-further html files ending in `_02`, `_03` etc. - each file will contain a maximum of 200 scans.
+further html files ending in `_02`, `_03` etc. - each file will contain a maximum of 50 scans.
 
 Double click on an html file to open it in your default web browser.
 
