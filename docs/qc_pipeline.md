@@ -202,22 +202,22 @@ for slice navigation, overlay toggling, and standardized QC rating.
 ### MAKE_HTML execution
 
 The HTML generator assembles the PNG images into an interactive viewer for efficient QC. To ensure responsive browser
-performance, each HTML file displays a maximum of 200 scans. For datasets exceeding this threshold, subjects/sessions
+performance, each HTML file displays a maximum of 50 scans. For datasets exceeding this threshold, subjects/sessions
 are automatically distributed across multiple HTML files.
 
 Separate HTML files are generated for linear and nonlinear registrations, enabling independent review of each
-registration type. For example, a dataset with 450 subjects (each with only one session) would produce six HTML files:
+registration type. For example, a dataset with 150 subjects (each with only one session) would produce six HTML files:
 
 Linear Registration:
 
-- <html_prefix>_ENIGMA_WML_QC_Linear_01.html : subjects 1 - 200
-- <html_prefix>_ENIGMA_WML_QC_Linear_02.html : subjects 201 - 400
-- <html_prefix>_ENIGMA_WML_QC_Linear_03.html : subjects 401 - 450
+- <html_prefix>_ENIGMA_WML_QC_Linear_01.html : subjects 1 - 50
+- <html_prefix>_ENIGMA_WML_QC_Linear_02.html : subjects 51 - 100
+- <html_prefix>_ENIGMA_WML_QC_Linear_03.html : subjects 101 - 150
 
 Nonlinear Registration:
 
-- <html_prefix>_ENIGMA_WML_QC_Nonlinear_01.html : subjects 1 - 200
-- <html_prefix>_ENIGMA_WML_QC_Nonlinear_02.html : subjects 201 - 400
-- <html_prefix>_ENIGMA_WML_QC_Nonlinear_03.html : subjects 401 - 450
+- <html_prefix>_ENIGMA_WML_QC_Nonlinear_01.html : subjects 1 - 50
+- <html_prefix>_ENIGMA_WML_QC_Nonlinear_02.html : subjects 51 - 100
+- <html_prefix>_ENIGMA_WML_QC_Nonlinear_03.html : subjects 101 - 150
 
 See [the QC usage docs](./qc_usage.md) for details of HTML features and how to use them.
