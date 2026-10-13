@@ -344,7 +344,7 @@ To help identify the locations of WML and their distributions, various outputs f
 
 In addition to this, the [Bullseye tool](https://doi.org/10.1016/j.neurad.2017.10.001) can be used to visualise WML distribution by parcellating the brain into four equidistant layers (from the ventricles to the cortex) and nine lobar zones, producing thirty-six distinct regions in which WML burden can be assessed. The results can be displayed in Bullseye plots, examples of which are shown in the figure below. 
 
-![Example Bullseye plots](./images/bullseye_examples.png)
+![Example Bullseye plots](./docs/images/bullseye_examples.png)
 
 Code for application of Bullseye to the pipeline outputs is available in [Bullseye scripts](https://github.com/csudre/BaMoS/tree/master/bullseye_scripts).
 
