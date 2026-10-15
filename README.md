@@ -175,7 +175,7 @@ Note, this requires either:
 - `-l` : path to CSV file containing list of subjects to include in the analysis. This should only be used if you would
   like to [run the pipeline on non-BIDS data](./docs/non-bids-data.md). This path must be relative to your data directory.
 
-- `-h`: The prefix to use for HTML files generated as part of the [QC workflow](./docs/qc_usage.md).
+- `-q`: The prefix to use for HTML files generated as part of the [QC workflow](./docs/qc_usage.md).
 
   E.g. a prefix of 'dataset_a' would result in html files named like: dataset_a_ENIGMA_WML_QC_Linear_01.html. If you are
   running the enigma-pd-wml pipeline multiple times with different datasets, you must set this prefix to a different
@@ -338,7 +338,32 @@ lesion maps:
 
 For more details see [Enigma-PD-WML-Clustering](https://github.com/reneemapa1/Enigma-PD-WML-Clustering).
 
-## Common issues
+## Visualisation of WML distribution
+
+To help identify the locations of WML and their distributions, various outputs from the pipeline listed above allow lesions to be identified in periventricular and deep white matter and white matter tracts.
+
+In addition to this, the [Bullseye tool](https://doi.org/10.1016/j.neurad.2017.10.001) can be used to visualise WML distribution by parcellating the brain into four equidistant layers (from the ventricles to the cortex) and nine lobar zones, producing thirty-six distinct regions in which WML burden can be assessed. The results can be displayed in Bullseye plots, examples of which are shown in the figure below.
+
+![Example Bullseye plots](./docs/images/bullseye_examples.png)
+
+Code for application of Bullseye to the pipeline outputs is available in [Bullseye scripts](https://github.com/csudre/BaMoS/tree/master/bullseye_scripts), developed by Carole Sudre.
+
+## Troubleshooting/FAQs
+
+- What are the imaging requirements?
+  - The pipeline requires a T1-weighted and FLAIR image in NIfTI format for each subject and session, acquired on a scanner with a minimum field strength of 1.5T and a slice thickness of 5 mm or less.
+
+- What are the computing requirements?
+  - The pipeline can be run on all systems including Mac, Windows and Linux. It requires a CPU and a minimum of 32 GB of RAM for efficient performance. A GPU is not required. The files required and generated take up approximately 800 MB of storage per subject per session.
+
+- How long does the pipeline take to run?
+  - The pipeline takes approximately 30 minutes to run per subject per session. Running the pipeline in parallel can speed up overall processing time for a dataset but requires a greater memory usage.
+
+- What happens if the pipeline fails?
+  - If the pipeline fails on a single subject / session it will continue to run on all other subjects and sessions within the data directory. To help troubleshoot, individual log files are provided at `data/derivatives/enigma-pd-wml/<subject>/<session>/<subject>_<session>.log` and an overall log file at `data/enigma-pd-wml.log`. By default, re-running the pipeline skips any successfully completed steps.
+
+- Why are outputs available both linearly registered and non-linearly warped to MNI space?
+  - Linearly registered outputs are provided for volumetric accuracy and non-linearly warped outputs are provided for neuroanatomical accuracy.
 
 ### Tensorflow memory usage
 

@@ -493,7 +493,7 @@ function parseArguments() {
   html_prefix="dataset_1"
   export overwrite=false
 
-  while getopts "n:of:s:l:h:" opt; do
+  while getopts "n:of:s:l:q:" opt; do
     case ${opt} in
       n)
         n=${OPTARG}
@@ -512,7 +512,7 @@ function parseArguments() {
       l)
         csv_file="${data_path}/${OPTARG}"
         ;;
-      h)
+      q)
         html_prefix=${OPTARG}
         ;;
       ?)
