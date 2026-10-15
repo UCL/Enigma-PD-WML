@@ -2,7 +2,6 @@
 
 Segment White Matter Lesions (WML) in T1-weighted and FLAIR MRI images using FSL and UNet-pgs
 
-
 > [!IMPORTANT]
 > The pipeline code is BSD 3-Clause licensed, but the pipeline depends on FSL and UNet-pgs, which
 > are restricted to non-commercial use. See [LICENSE](LICENSE) for details.
@@ -402,8 +401,7 @@ the [FSL licence page](https://fsl.fmrib.ox.ac.uk/fsl/docs/license.html) for FSL
 
 ### Creators
 
-Dr Sarah Al-Bachari, Miss Shauna Angell, Dr Hamied Haroon, Dr Robin Long, Miss Renee Mapa, Dr Kimberly Meechan, Dr Paul Smith and Miss Sunanda Somu. With specialist input from Professor
-Neda Jahanshad, Dr Conor Owens-Walton and Dr Chris Vriend.
+Dr Sarah Al-Bachari, Miss Shauna Angell, Dr Hamied Haroon, Dr Robin Long, Miss Renee Mapa, Dr Kimberly Meechan, Dr Paul Smith and Miss Sunanda Somu. With specialist input from Professor Neda Jahanshad, Dr Conor Owens-Walton and Dr Chris Vriend.
 
 ### Acknowledgements and Thanks
 
