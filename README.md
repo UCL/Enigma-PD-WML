@@ -6,7 +6,6 @@ Segment White Matter Lesions (WML) in T1-weighted and FLAIR MRI images using FSL
 > The pipeline code is BSD 3-Clause licensed, but the pipeline depends on FSL and UNet-pgs, which
 > are restricted to non-commercial use. See [LICENSE](LICENSE) for details.
 
-
 ## What does the pipeline do?
 
 This pipeline allows white matter lesions (WML) to be segmented from a subject's T1-weighted and FLAIR MRI images from
