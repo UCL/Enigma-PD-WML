@@ -346,7 +346,7 @@ In addition to this, the [Bullseye tool](https://doi.org/10.1016/j.neurad.2017.1
 
 ![Example Bullseye plots](./docs/images/bullseye_examples.png)
 
-Code for application of Bullseye to the pipeline outputs is available in [Bullseye scripts](https://github.com/csudre/BaMoS/tree/master/bullseye_scripts).
+Code for application of Bullseye to the pipeline outputs is available in [Bullseye scripts](https://github.com/csudre/BaMoS/tree/master/bullseye_scripts), developed by Carole Sudre.
 
 ## Troubleshooting/FAQs
 
